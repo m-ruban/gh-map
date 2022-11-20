@@ -2,7 +2,7 @@ import { Container, TextStyle } from 'pixi.js';
 
 import app from 'map/modules/app';
 import { COUNT_YEARS } from 'map/modules/constants';
-import fontPromise, { FONT_FAMILY } from 'map/modules/fonts';
+import fontPromise, { FONT_MONTSERRAT_FAMILY } from 'map/modules/fonts';
 
 import Year from 'map/components/Year';
 
@@ -10,7 +10,7 @@ import Year from 'map/components/Year';
 const yearsContainer = new Container();
 fontPromise.then(() => {
     const textStyle = new TextStyle({
-        fontFamily: FONT_FAMILY,
+        fontFamily: FONT_MONTSERRAT_FAMILY,
         fontSize: 96,
         fill: [0xffffff],
     });
