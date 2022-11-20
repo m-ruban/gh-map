@@ -27,7 +27,7 @@ module.exports = {
             map: path.resolve(__dirname, 'src/Map'),
             ['side-bar']: path.resolve(__dirname, 'src/SideBar'),
         },
-        extensions: ['.js', '.jsx', '.js', '.json', '.svg', '.gif', '.jpg', '.less'],
+        extensions: ['.js', '.jsx', '.js', '.json', '.svg', '.gif', '.jpg', '.less', '.ts', '.tsx'],
     },
     module: {
         rules: [

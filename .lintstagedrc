@@ -1,4 +1,0 @@
-{
-  "*.{js,jsx}": ["eslint --fix", "git add ."],
-  '*.less': ['yarn stylelint --fix'],
-}

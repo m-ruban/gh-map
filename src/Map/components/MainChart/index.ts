@@ -1,9 +1,9 @@
-import { Container, Graphics } from 'pixi.js';
+import { Container, DisplayObject, Graphics } from 'pixi.js';
 
 import app from 'map/modules/app';
 import { COUNT_YEARS, HEIGHT_YEAR, WIDTH_BORDER, WIDTH_YEAR } from 'map/modules/constants';
 
-const MainChart = () => {
+const MainChart: () => DisplayObject = () => {
     const map = new Graphics();
     map.beginFill(0x1f2327);
     map.drawPolygon([
