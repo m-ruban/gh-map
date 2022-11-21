@@ -1,7 +1,7 @@
-import { Container, TextMetrics, TextStyle } from 'pixi.js';
+import { Container, Sprite, TextMetrics, TextStyle } from 'pixi.js';
 
 import app from 'map/modules/app';
-import fontPromise from 'map/modules/fonts';
+import fontPromise, { FontFamily } from 'map/modules/fonts';
 
 import { MAX_TEXT_WIDTH, PADDING } from 'map/components/InfoTip/constants';
 import InfoTipText from 'map/components/InfoTip/InfoTipText';
@@ -12,8 +12,8 @@ import Wrapper from 'map/components/InfoTip/Wrapper';
 const DUMMY_TEXT =
     'Где-то влияние, великого отца ужасов, ощущается меньше, как в сериях Amnesia и Layers of Fear. А где-то можно найти лишь лавкрафтовские крохи, например, в первом. Но, если рассматривать конкретно жанр игровых ужасов, то получается довольно мемная картинка. Где-то Лавкрафта видно целиком, например, в Sinking City или в Call of Cthulhu.';
 
-const textStyle = new TextStyle({
-    fontFamily: 'OpenSans, sans-serif',
+const style = new TextStyle({
+    fontFamily: FontFamily.OpenSans,
     fontSize: 28,
     fill: 0xdedede,
     align: 'left',
@@ -23,7 +23,12 @@ const textStyle = new TextStyle({
     lineHeight: 40,
 });
 
-const InfoTip = ({ x, y }) => {
+interface InfoTipProps {
+    x: number;
+    y: number;
+}
+
+const InfoTip: (props: InfoTipProps) => Sprite = ({ x, y }) => {
     // trigger
     const infoTip = Trigger({ x, y });
 
@@ -33,11 +38,11 @@ const InfoTip = ({ x, y }) => {
 
     fontPromise.then(() => {
         // calc text metrics
-        const textMetrics = TextMetrics.measureText(DUMMY_TEXT, textStyle);
+        const metrics = TextMetrics.measureText(DUMMY_TEXT, style);
 
         // info tip body
-        const textWrapper = Wrapper({ infoTip, textMetrics });
-        const infoTipText = InfoTipText({ text: DUMMY_TEXT, textStyle, wrapper: textWrapper });
+        const textWrapper = Wrapper({ infoTip, metrics });
+        const infoTipText = InfoTipText({ text: DUMMY_TEXT, style, wrapper: textWrapper });
         const triangle = Triangle({ infoTipText });
 
         // prepare container

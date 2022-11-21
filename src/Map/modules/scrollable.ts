@@ -5,9 +5,9 @@ import { COUNT_YEARS, WIDTH_YEAR } from 'map/modules/constants';
 
 app.stage.interactive = true;
 
-const LEFT_SCROLL_BORDER = 0;
-const RIGHT_SCROLL_BORDER = (WIDTH_YEAR * COUNT_YEARS - app.view.width) * -1;
-let prev;
+const LEFT_SCROLL_BORDER: number = 0;
+const RIGHT_SCROLL_BORDER: number = (WIDTH_YEAR * COUNT_YEARS - app.view.width) * -1;
+let prev: number | undefined;
 const onMove = (event: FederatedPointerEvent) => {
     if (prev) {
         let position = app.stage.x + event.global.x - prev;
