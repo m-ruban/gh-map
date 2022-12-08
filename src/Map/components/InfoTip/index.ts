@@ -4,6 +4,7 @@ import app from 'map/modules/app';
 import fontPromise, { FontFamily } from 'map/modules/fonts';
 
 import { MAX_TEXT_WIDTH, PADDING } from 'map/components/InfoTip/constants';
+import InfoTipPosition from 'map/components/InfoTip/InfoTipPosition';
 import InfoTipText from 'map/components/InfoTip/InfoTipText';
 import Triangle from 'map/components/InfoTip/Triangle';
 import Trigger from 'map/components/InfoTip/Trigger';
@@ -26,9 +27,10 @@ const style = new TextStyle({
 interface InfoTipProps {
     x: number;
     y: number;
+    position?: InfoTipPosition;
 }
 
-const InfoTip: (props: InfoTipProps) => Sprite = ({ x, y }) => {
+const InfoTip: (props: InfoTipProps) => Sprite = ({ x, y, position = InfoTipPosition.Top }) => {
     // trigger
     const infoTip = Trigger({ x, y });
 
@@ -41,9 +43,9 @@ const InfoTip: (props: InfoTipProps) => Sprite = ({ x, y }) => {
         const metrics = TextMetrics.measureText(DUMMY_TEXT, style);
 
         // info tip body
-        const textWrapper = Wrapper({ infoTip, metrics });
+        const textWrapper = Wrapper({ infoTip, metrics, position });
         const infoTipText = InfoTipText({ text: DUMMY_TEXT, style, wrapper: textWrapper });
-        const triangle = Triangle({ infoTipText });
+        const triangle = Triangle({ infoTipText, position });
 
         // prepare container
         infoTipContainer.addChild(textWrapper);

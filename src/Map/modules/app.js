@@ -16,17 +16,30 @@ const app = new Application({
 const map = document.querySelector('#map');
 map.appendChild(app.view);
 
+// disable scroll events on canvas
+map.addEventListener(
+    'wheel',
+    (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        return false;
+    },
+    { passive: false }
+);
+
 // lol
 const canvas = map.querySelector('canvas');
 canvas.style.width = `${window.innerWidth}px`;
 canvas.style.height = `${window.innerHeight}px`;
 
 // resize
-const onResize = debounce(() => {
-    app.renderer.resize(window.innerWidth * RESOLUTION, window.innerHeight * RESOLUTION);
-    canvas.style.width = `${window.innerWidth}px`;
-    canvas.style.height = `${window.innerHeight}px`;
-}, 100);
-window.addEventListener('resize', onResize);
+window.addEventListener(
+    'resize',
+    debounce(() => {
+        app.renderer.resize(window.innerWidth * RESOLUTION, window.innerHeight * RESOLUTION);
+        canvas.style.width = `${window.innerWidth}px`;
+        canvas.style.height = `${window.innerHeight}px`;
+    }, 100)
+);
 
 export default app;

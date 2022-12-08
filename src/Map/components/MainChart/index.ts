@@ -1,22 +1,24 @@
-import { Container, DisplayObject, Graphics } from 'pixi.js';
+import { Container, DisplayObject } from 'pixi.js';
 
-import app from 'map/modules/app';
-import { COUNT_YEARS, HEIGHT_YEAR, WIDTH_BORDER, WIDTH_YEAR } from 'map/modules/constants';
+import fontPromise from 'map/modules/fonts';
+
+import Genre from 'map/components/Genre';
+import Ground from 'map/components/MainChart/Ground';
+
+const START_YEAR_POSITION = 1;
+const END_YEAR_POSITION = 7;
 
 const MainChart: () => DisplayObject = () => {
-    const map = new Graphics();
-    map.beginFill(0x1f2327);
-    map.drawPolygon([
-        { x: 0, y: 0 },
-        { x: WIDTH_YEAR * COUNT_YEARS, y: 0 },
-        { x: WIDTH_YEAR * COUNT_YEARS, y: app.view.height - (HEIGHT_YEAR + WIDTH_BORDER) },
-        { x: 0, y: app.view.height - (HEIGHT_YEAR + WIDTH_BORDER) },
-    ]);
-    map.endFill();
+    // background
+    const chartContainer = new Container();
+    chartContainer.addChild(Ground());
 
-    const container = new Container();
-    container.addChild(map);
-    return container;
+    fontPromise.then(() => {
+        // render genre
+        chartContainer.addChild(Genre({ startYear: START_YEAR_POSITION, endYear: END_YEAR_POSITION }));
+    });
+
+    return chartContainer;
 };
 
 export default MainChart;

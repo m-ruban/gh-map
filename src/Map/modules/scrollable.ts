@@ -7,7 +7,7 @@ import debounce from 'map/modules/debounce';
 app.stage.interactive = true;
 
 // borders
-const LEFT_SCROLL_BORDER: number = 0;
+const LEFT_SCROLL_BORDER = 0;
 let RIGHT_SCROLL_BORDER: number = (WIDTH_YEAR * COUNT_YEARS - app.view.width) * -1;
 
 // callbacks

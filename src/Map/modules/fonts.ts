@@ -1,6 +1,6 @@
 import { Assets } from 'pixi.js';
 
-const FONT_BUNDLE: string = 'fonts';
+const FONT_BUNDLE = 'fonts';
 
 export enum FontFamily {
     Montserrat = 'Montserrat, sans-serif',

@@ -1,13 +1,13 @@
-import React from 'react';
+import React, { FC } from 'react';
 
 import SearchIcon from 'gg-ukit/components/Icon/Search';
 
 import 'side-bar/components/Search/search.less';
 
-const Search = () => {
+const Search: FC = () => {
     return (
         <div className="search">
-            <SearchIcon color="#FFFFFF" scale={2} />
+            <SearchIcon color="#FFFFFF" scale={1} />
         </div>
     );
 };

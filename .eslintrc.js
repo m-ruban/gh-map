@@ -1,14 +1,16 @@
+const path = require('path');
 module.exports = {
     root: true,
     parser: 'babel-eslint',
     extends: ['plugin:react/recommended', 'prettier'],
-    plugins: ['prettier', 'react-hooks', 'simple-import-sort'],
+    plugins: ['prettier', 'react-hooks', '@typescript-eslint', 'simple-import-sort'],
     rules: {
         'no-console': ['error'],
         'prettier/prettier': ['error'],
         'simple-import-sort/imports': 'error',
         'simple-import-sort/exports': 'error',
         'react-hooks/exhaustive-deps': 'warn',
+        'no-unused-vars': ['error', { vars: 'all', args: 'after-used', ignoreRestSiblings: false }],
     },
     settings: {
         react: {
@@ -22,8 +24,17 @@ module.exports = {
     },
     overrides: [
         {
+            parser: '@typescript-eslint/parser',
+            extends: ['plugin:react/recommended', 'prettier', 'plugin:@typescript-eslint/recommended'],
+            files: ['*.ts', '*.tsx'],
+            parserOptions: {
+                project: path.join(__dirname, 'tsconfig.json'),
+            },
+        },
+        {
             files: ['*.js', '*.jsx', '*.ts', '*.tsx'],
             rules: {
+                '@typescript-eslint/no-unused-vars': ['error'],
                 'simple-import-sort/imports': [
                     'error',
                     {
