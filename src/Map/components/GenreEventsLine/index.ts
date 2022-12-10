@@ -30,6 +30,11 @@ const DUMMY_EVENTS = [
         title: 'Submarine Titans',
         type: GenreEventType.Other,
     },
+    {
+        img: './1.jpg',
+        title: 'Door Kickers: Action',
+        type: GenreEventType.Game,
+    },
 ];
 
 const GenreEventsLine: (props: GenreEventsLineProps) => Container = ({ x, y, genreEvents = [...DUMMY_EVENTS] }) => {

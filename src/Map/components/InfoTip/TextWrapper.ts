@@ -3,7 +3,7 @@ import { Graphics, Sprite, TextMetrics } from 'pixi.js';
 import { CORNER_INDENT, PADDING } from 'map/components/InfoTip/constants';
 import InfoTipPosition from 'map/components/InfoTip/InfoTipPosition';
 
-interface WrapperProps {
+interface TextWrapperProps {
     infoTip: Sprite;
     metrics: TextMetrics;
     position: InfoTipPosition;
@@ -20,7 +20,7 @@ const getYOffset: (tipHeight: number, textHeight: number, position: InfoTipPosit
     return (textHeight + CORNER_INDENT + PADDING * 2) * -1;
 };
 
-const Wrapper: (props: WrapperProps) => Graphics = ({ infoTip, metrics, position }) => {
+const TextWrapper: (props: TextWrapperProps) => Graphics = ({ infoTip, metrics, position }) => {
     const infoTipWrapper = new Graphics();
     infoTipWrapper.x = infoTip.x - (metrics.width / 2 - infoTip.width / 2) - PADDING;
     infoTipWrapper.y = infoTip.y + getYOffset(infoTip.height, metrics.height, position);
@@ -31,4 +31,4 @@ const Wrapper: (props: WrapperProps) => Graphics = ({ infoTip, metrics, position
     return infoTipWrapper;
 };
 
-export default Wrapper;
+export default TextWrapper;

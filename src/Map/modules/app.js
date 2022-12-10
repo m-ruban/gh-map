@@ -1,7 +1,6 @@
 import { Application } from 'pixi.js';
 
-import { RESOLUTION } from 'map/modules/constants';
-import debounce from 'map/modules/debounce';
+import { APP_SELECTOR, RESOLUTION } from 'map/modules/constants';
 
 // app
 const app = new Application({
@@ -13,33 +12,6 @@ const app = new Application({
     useContextAlpha: false,
     hello: true,
 });
-const map = document.querySelector('#map');
-map.appendChild(app.view);
-
-// disable scroll events on canvas
-map.addEventListener(
-    'wheel',
-    (e) => {
-        e.preventDefault();
-        e.stopPropagation();
-        return false;
-    },
-    { passive: false }
-);
-
-// lol
-const canvas = map.querySelector('canvas');
-canvas.style.width = `${window.innerWidth}px`;
-canvas.style.height = `${window.innerHeight}px`;
-
-// resize
-window.addEventListener(
-    'resize',
-    debounce(() => {
-        app.renderer.resize(window.innerWidth * RESOLUTION, window.innerHeight * RESOLUTION);
-        canvas.style.width = `${window.innerWidth}px`;
-        canvas.style.height = `${window.innerHeight}px`;
-    }, 100)
-);
+document.querySelector(APP_SELECTOR).appendChild(app.view);
 
 export default app;

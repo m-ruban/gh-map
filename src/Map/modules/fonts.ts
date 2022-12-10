@@ -12,6 +12,6 @@ Assets.addBundle(FONT_BUNDLE, {
     OpenSans: 'OpenSans.woff',
 });
 
-const fontPromise = Assets.loadBundle(FONT_BUNDLE);
+const fonts = Assets.loadBundle(FONT_BUNDLE);
 
-export default fontPromise;
+export default fonts;

@@ -7,3 +7,5 @@ export const YEAR_CORNER = 70;
 
 export const START_YEAR = 1998;
 export const COUNT_YEARS = 10;
+
+export const APP_SELECTOR = '#map';
