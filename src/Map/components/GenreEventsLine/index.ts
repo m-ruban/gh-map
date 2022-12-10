@@ -7,6 +7,7 @@ import GenreEventComponent, { GenreEvent } from 'map/components/GenreEvent';
 import { PADDING_WRAPPER } from 'map/components/GenreEvent/constants';
 import GenreEventType from 'map/components/GenreEvent/GenreEventType';
 import Background from 'map/components/GenreEventsLine/Background';
+import ScrollTriangle, { Position } from 'map/components/GenreEventsLine/ScrollTriangle';
 
 interface GenreEventsLineProps {
     x: number;
@@ -62,15 +63,22 @@ const GenreEventsLine: (props: GenreEventsLineProps) => Container = ({ x, y, gen
     // for not-jumping scrolling use mask
     const possibleHeight = app.view.height - (HEIGHT_YEAR + WIDTH_BORDER) - genreEventLineContainer.y - PADDING_WRAPPER;
     const background = Background({ scrollableContainer: genreEventLineScrollableContainer, height: possibleHeight });
+    const bottomTriangle = ScrollTriangle({ parent: background, position: Position.Bottom });
+    const topTriangle = ScrollTriangle({ parent: background, position: Position.Top });
 
     // prepare parent genre container
     genreEventLineScrollableContainer.mask = background;
     genreEventLineContainer.addChild(background);
     genreEventLineContainer.addChild(genreEventLineScrollableContainer);
+    genreEventLineContainer.addChild(topTriangle);
+    genreEventLineContainer.addChild(bottomTriangle);
 
     // configure scroll limits
     const bottomScrollBorder = (genreEventLineScrollableContainer.height - possibleHeight) * -1;
     const topScrollBorder = 0;
+    // show bottom triangle and cache basic condition
+    const showAnyScrollTriangle = genreEventLineScrollableContainer.height > genreEventLineContainer.height;
+    bottomTriangle.visible = showAnyScrollTriangle;
 
     // scroll events
     genreEventLineContainer.interactive = true;
@@ -79,14 +87,21 @@ const GenreEventsLine: (props: GenreEventsLineProps) => Container = ({ x, y, gen
         // to top
         if (newY > topScrollBorder) {
             genreEventLineScrollableContainer.y = 0;
+            topTriangle.visible = false;
             return;
         }
-        // to bottom
+        // to bottom or top
         if (newY > bottomScrollBorder) {
+            // check borders and show scroll triangles
+            if (showAnyScrollTriangle) {
+                topTriangle.visible = newY !== 0;
+                bottomTriangle.visible = newY !== bottomScrollBorder;
+            }
             genreEventLineScrollableContainer.y = newY;
             return;
         }
         // bottom border
+        bottomTriangle.visible = false;
         genreEventLineScrollableContainer.y = bottomScrollBorder;
     });
 
