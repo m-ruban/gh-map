@@ -1,7 +1,6 @@
 import { Container, FederatedWheelEvent } from 'pixi.js';
 
-import app from 'map/modules/app';
-import { HEIGHT_YEAR, WIDTH_BORDER } from 'map/modules/constants';
+import { subscribeScreenEvent } from 'map/modules/screen';
 
 import GenreEventComponent, { GenreEvent } from 'map/components/GenreEvent';
 import { PADDING_WRAPPER } from 'map/components/GenreEvent/constants';
@@ -61,8 +60,10 @@ const GenreEventsLine: (props: GenreEventsLineProps) => Container = ({ x, y, gen
     });
 
     // for not-jumping scrolling use mask
-    const possibleHeight = app.view.height - (HEIGHT_YEAR + WIDTH_BORDER) - genreEventLineContainer.y - PADDING_WRAPPER;
-    const background = Background({ scrollableContainer: genreEventLineScrollableContainer, height: possibleHeight });
+    const background = Background({
+        parentContainer: genreEventLineContainer,
+        scrollableContainer: genreEventLineScrollableContainer,
+    });
     const bottomTriangle = ScrollTriangle({ parent: background, position: Position.Bottom });
     const topTriangle = ScrollTriangle({ parent: background, position: Position.Top });
 
@@ -74,15 +75,26 @@ const GenreEventsLine: (props: GenreEventsLineProps) => Container = ({ x, y, gen
     genreEventLineContainer.addChild(bottomTriangle);
 
     // configure scroll limits
-    const bottomScrollBorder = (genreEventLineScrollableContainer.height - possibleHeight) * -1;
     const topScrollBorder = 0;
-    // show bottom triangle and cache basic condition
-    const showAnyScrollTriangle = genreEventLineScrollableContainer.height > genreEventLineContainer.height;
+    let bottomScrollBorder = (genreEventLineScrollableContainer.height - background.height) * -1;
+    let showAnyScrollTriangle = genreEventLineScrollableContainer.height > genreEventLineContainer.height;
     bottomTriangle.visible = showAnyScrollTriangle;
+
+    // recalc border after resize
+    subscribeScreenEvent(() => {
+        genreEventLineScrollableContainer.y = 0;
+        bottomScrollBorder = (genreEventLineScrollableContainer.height - background.height) * -1;
+        showAnyScrollTriangle = genreEventLineScrollableContainer.height > genreEventLineContainer.height;
+        bottomTriangle.visible = showAnyScrollTriangle;
+        topTriangle.visible = false;
+    });
 
     // scroll events
     genreEventLineContainer.interactive = true;
     genreEventLineContainer.on('wheel', (event: FederatedWheelEvent) => {
+        if (!showAnyScrollTriangle) {
+            return;
+        }
         const newY = genreEventLineScrollableContainer.y + event.deltaY * -1;
         // to top
         if (newY > topScrollBorder) {

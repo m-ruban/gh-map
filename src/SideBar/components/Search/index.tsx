@@ -7,7 +7,7 @@ import 'side-bar/components/Search/search.less';
 const Search: FC = () => {
     return (
         <div className="search">
-            <SearchIcon color="#FFFFFF" scale={1} />
+            <SearchIcon color="#FFFFFF" scale={2} />
         </div>
     );
 };

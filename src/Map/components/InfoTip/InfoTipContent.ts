@@ -20,12 +20,12 @@ const style = new TextStyle({
 });
 
 interface InfoTipContentProps {
-    infoTip: Sprite;
+    trigger: Sprite;
     position?: InfoTipPosition;
     text: string;
 }
 
-const InfoTipContent: (props: InfoTipContentProps) => Container = ({ infoTip, position, text }) => {
+const InfoTipContent: (props: InfoTipContentProps) => Container = ({ trigger, position, text }) => {
     // tip container
     const infoTipContainer = new Container();
 
@@ -33,7 +33,7 @@ const InfoTipContent: (props: InfoTipContentProps) => Container = ({ infoTip, po
     const metrics = TextMetrics.measureText(text, style);
 
     // info tip body
-    const textWrapper = TextWrapper({ infoTip, metrics, position });
+    const textWrapper = TextWrapper({ trigger, metrics, position });
     const infoTipText = InfoTipText({ text: text, style, wrapper: textWrapper });
     const triangle = Triangle({ infoTipText, position });
 

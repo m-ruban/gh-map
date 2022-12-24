@@ -46,7 +46,7 @@ const Genre: (props: GenreProps) => DisplayObject = ({ startYear, endYear }) => 
 
             // tip for description
             const tipX = start + (position + 1) * WIDTH_YEAR;
-            const infoTip = InfoTip({ x: tipX, y: GENRE_TOP_PADDING, position: InfoTipPosition.Bottom });
+            const { infoTip } = InfoTip({ x: tipX, y: GENRE_TOP_PADDING, position: InfoTipPosition.Bottom });
             partTimelineInfoContainer.addChild(infoTip);
 
             // events line

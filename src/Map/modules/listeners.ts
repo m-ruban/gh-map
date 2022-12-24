@@ -3,8 +3,9 @@ import { FederatedPointerEvent } from 'pixi.js';
 import app from 'map/modules/app';
 import { APP_SELECTOR, COUNT_YEARS, RESOLUTION, WIDTH_YEAR } from 'map/modules/constants';
 import debounce from 'map/modules/debounce';
+import { subscribeScreenEvent } from 'map/modules/screen';
 
-const listeners = () => {
+const listeners: () => void = () => {
     app.stage.interactive = true;
 
     // borders
@@ -43,6 +44,10 @@ const listeners = () => {
         RIGHT_SCROLL_BORDER = (WIDTH_YEAR * COUNT_YEARS - app.view.width) * -1;
     }, 200);
     window.addEventListener('resize', onResize);
+
+    subscribeScreenEvent(() => {
+        RIGHT_SCROLL_BORDER = (WIDTH_YEAR * COUNT_YEARS - app.view.width) * -1;
+    });
 
     // disable scroll events on canvas
     const map = document.querySelector(APP_SELECTOR);

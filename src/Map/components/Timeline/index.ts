@@ -15,6 +15,7 @@ const Timeline: () => Container = () => {
         fontSize: 64,
         fill: [0xffffff],
     });
+
     // year list
     for (let i = 0; i < COUNT_YEARS; i++) {
         yearsContainer.addChild(Year({ position: i, style }));

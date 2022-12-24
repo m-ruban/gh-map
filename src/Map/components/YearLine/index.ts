@@ -1,18 +1,33 @@
 import { Graphics } from 'pixi.js';
 
 import app from 'map/modules/app';
-import { HEIGHT_YEAR, WIDTH_BORDER, WIDTH_YEAR } from 'map/modules/constants';
+import { HEIGHT_YEAR, WIDTH_YEAR } from 'map/modules/constants';
+import { subscribeScreenEvent } from 'map/modules/screen';
 
 interface YearProps {
     position: number;
+    test?: boolean;
 }
+
+const WIDTH_BORDER = 2;
+const LINE_STYLE = { color: 0x404a53, width: WIDTH_BORDER };
 
 const YearLine: (props: YearProps) => Graphics = ({ position }) => {
     const yearLine = new Graphics();
-    const width = WIDTH_BORDER / 2;
-    yearLine.lineStyle({ color: 0x404a53, width });
-    yearLine.moveTo(position * WIDTH_YEAR + width, 0);
-    yearLine.lineTo(position * WIDTH_YEAR + width, app.view.height - HEIGHT_YEAR - WIDTH_BORDER);
+    const x = position * WIDTH_YEAR + WIDTH_BORDER;
+    yearLine
+        .lineStyle(LINE_STYLE)
+        .moveTo(x, 0)
+        .lineTo(x, app.view.height - HEIGHT_YEAR);
+
+    subscribeScreenEvent(() => {
+        yearLine
+            .clear()
+            .lineStyle(LINE_STYLE)
+            .moveTo(x, 0)
+            .lineTo(x, app.view.height - HEIGHT_YEAR);
+    });
+
     return yearLine;
 };
 

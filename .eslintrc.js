@@ -9,7 +9,7 @@ module.exports = {
         'prettier/prettier': ['error'],
         'simple-import-sort/imports': 'error',
         'simple-import-sort/exports': 'error',
-        'react-hooks/exhaustive-deps': 'warn',
+        'react-hooks/exhaustive-deps': 'error',
         'no-unused-vars': ['error', { vars: 'all', args: 'after-used', ignoreRestSiblings: false }],
     },
     settings: {

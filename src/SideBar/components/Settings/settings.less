@@ -1,0 +1,24 @@
+@import 'gg-ukit/styles/colors';
+
+.settings {
+    position: absolute;
+    bottom: 102px;
+    right: 0;
+    background-color: @minor;
+    padding: 10px;
+    border-radius: 8px;
+    border: 2px solid @tertiary-dimmed;
+}
+
+.settings-item {
+    margin-bottom: 15px;
+    user-select: none;
+
+    &:hover {
+        cursor: pointer;
+    }
+
+    &:last-of-type {
+        margin-bottom: 0;
+    }
+}
