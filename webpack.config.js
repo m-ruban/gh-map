@@ -1,5 +1,6 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const CopyPluginPlugin = require('copy-webpack-plugin');
 
 const rootPath = path.resolve(__dirname, 'src');
 const entryPath = path.resolve(rootPath, 'index.js');
@@ -56,6 +57,13 @@ module.exports = {
             template: 'public/index.html',
             favicon: 'public/favicon.ico',
             inject: true,
+        }),
+        new CopyPluginPlugin({
+            patterns: [
+                { from: 'public/fonts', to: 'fonts' },
+                { from: 'public/icons', to: 'icons' },
+                { from: 'public/images', to: 'images' },
+            ],
         }),
     ],
     optimization: {

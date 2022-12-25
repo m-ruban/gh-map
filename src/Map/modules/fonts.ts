@@ -8,8 +8,8 @@ export enum FontFamily {
 }
 
 Assets.addBundle(FONT_BUNDLE, {
-    Montserrat: 'montserrat.woff',
-    OpenSans: 'OpenSans.woff',
+    Montserrat: './fonts/montserrat.woff',
+    OpenSans: './fonts/OpenSans.woff',
 });
 
 const fonts = Assets.loadBundle(FONT_BUNDLE);

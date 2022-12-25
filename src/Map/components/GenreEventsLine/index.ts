@@ -16,22 +16,22 @@ interface GenreEventsLineProps {
 
 const DUMMY_EVENTS = [
     {
-        img: './1.jpg',
+        img: './images/1.jpg',
         title: 'Door Kickers: Action Squad',
         type: GenreEventType.Game,
     },
     {
-        img: './2.jpg',
+        img: './images/2.jpg',
         title: 'Sony PlayStation 2',
         type: GenreEventType.Platform,
     },
     {
-        img: './3.jpg',
+        img: './images/3.jpg',
         title: 'Submarine Titans',
         type: GenreEventType.Other,
     },
     {
-        img: './1.jpg',
+        img: './images/1.jpg',
         title: 'Door Kickers: Action',
         type: GenreEventType.Game,
     },

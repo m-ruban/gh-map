@@ -22,7 +22,7 @@ interface InfoTipResult {
 
 const InfoTip: (props: InfoTipProps) => InfoTipResult = ({ x, y, position = InfoTipPosition.Top }) => {
     // trigger
-    const infoTexture = Texture.from('./info.svg');
+    const infoTexture = Texture.from('./icons/info.svg');
     const trigger = new Sprite(infoTexture);
     trigger.x = x - ICON_SIZE - PADDING;
     trigger.y = y + PADDING;
