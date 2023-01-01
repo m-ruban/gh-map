@@ -1,9 +1,14 @@
-import { FederatedPointerEvent } from 'pixi.js';
+import { FederatedEvent, FederatedPointerEvent } from 'pixi.js';
 
 import app from 'map/modules/app';
 import { APP_SELECTOR, COUNT_YEARS, RESOLUTION, WIDTH_YEAR } from 'map/modules/constants';
 import debounce from 'map/modules/debounce';
 import { subscribeScreenEvent } from 'map/modules/screen';
+
+export const isCanvasTarget = (event: FederatedEvent): boolean => {
+    const target = event.nativeEvent.target as HTMLElement;
+    return target.tagName === 'CANVAS';
+};
 
 const listeners: () => void = () => {
     app.stage.interactive = true;

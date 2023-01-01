@@ -1,6 +1,7 @@
-import { IPointData, Sprite, Texture } from 'pixi.js';
+import { Container, FederatedPointerEvent, IPointData, Sprite, Texture } from 'pixi.js';
 
 import app from 'map/modules/app';
+import { isCanvasTarget } from 'map/modules/listeners';
 
 import { ICON_SIZE, PADDING } from 'map/components/InfoTip/constants';
 import InfoTipContent from 'map/components/InfoTip/InfoTipContent';
@@ -35,10 +36,13 @@ const InfoTip: (props: InfoTipProps) => InfoTipResult = ({ x, y, position = Info
     };
 
     // render content by hover
-    let infoTipContent;
+    let infoTipContent: Container;
     trigger.interactive = true;
     trigger.cursor = 'pointer';
-    trigger.on('pointerenter', () => {
+    trigger.on('pointerenter', (event: FederatedPointerEvent) => {
+        if (!isCanvasTarget(event)) {
+            return;
+        }
         infoTipContent = InfoTipContent({ trigger, position, text: DUMMY_TEXT });
         // use app container for to give higher order
         app.stage.addChild(infoTipContent);

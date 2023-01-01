@@ -17,6 +17,7 @@ interface GenreProps {
     endYear: number;
 }
 
+const DUMMY_ID = 11;
 const DUMMY_TITLE = 'RPG';
 const DUMMY_TEXTS = {
     '1': 'Становление основ жанра',
@@ -63,7 +64,7 @@ const Genre: (props: GenreProps) => DisplayObject = ({ startYear, endYear }) => 
 
     const genrePolygon = GenreWrapper({ start }); // hexagon
     const genreIcon = Icon({ start, path: './icons/rpg.svg' });
-    const genreTitle = Title({ title: DUMMY_TITLE, genreIcon });
+    const genreTitle = Title({ title: DUMMY_TITLE, genreIcon, id: DUMMY_ID });
 
     // vertical alignment between title/icon
     if (genreTitle.height > genreIcon.height) {
