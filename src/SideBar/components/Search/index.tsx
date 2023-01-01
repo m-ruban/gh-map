@@ -1,12 +1,12 @@
 import React, { FC } from 'react';
 
-import SearchIcon from 'gg-ukit/components/Icon/Search';
+import MenyIcon from 'side-bar/components/MenuIcon';
 import MenuItem from 'side-bar/components/MenuItem';
 
 const Search: FC = () => {
     return (
         <MenuItem>
-            <SearchIcon color="#FFFFFF" scale={2} />
+            <MenyIcon src="/icons/search.svg" alt="Поиск" />
         </MenuItem>
     );
 };
