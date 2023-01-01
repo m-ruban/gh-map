@@ -1,6 +1,7 @@
 import React from 'react';
 
 import BottomActions from 'side-bar/components/BottomActions';
+import GenreView from 'side-bar/components/GenreView';
 import Settings from 'side-bar/components/Settings';
 import TopActions from 'side-bar/components/TopActions';
 
@@ -13,6 +14,7 @@ const App = () => (
         <TopActions />
         <Settings />
         <BottomActions />
+        <GenreView />
     </>
 );
 
