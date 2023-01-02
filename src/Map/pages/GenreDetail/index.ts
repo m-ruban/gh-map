@@ -1,12 +1,13 @@
 import { Container } from 'pixi.js';
 
 import Genre from 'map/components/Genre';
-import Ground from 'map/components/MainChart/Ground';
+
+import Ground from 'map/pages/GenreDetail/Ground';
 
 const START_YEAR_POSITION = 1;
 const END_YEAR_POSITION = 7;
 
-const MainChart: () => Container = () => {
+const GenreDetail: () => Container = () => {
     // background
     const chartContainer = new Container();
     chartContainer.addChild(Ground());
@@ -15,4 +16,4 @@ const MainChart: () => Container = () => {
     return chartContainer;
 };
 
-export default MainChart;
+export default GenreDetail;
