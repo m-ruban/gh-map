@@ -12,14 +12,12 @@ const Help: FC = () => {
     const [showSheet, setShowSheet] = useState(false);
     return (
         <>
-            <MenuItem>
-                <MenyIcon
-                    src="/icons/help.svg"
-                    alt="help"
-                    onClick={() => {
-                        setShowSheet(!showSheet);
-                    }}
-                />
+            <MenuItem
+                onClick={() => {
+                    setShowSheet(!showSheet);
+                }}
+            >
+                <MenyIcon src="/icons/help.svg" alt="help" />
             </MenuItem>
             <Sheet
                 header={<H2 title="Help" line={HeaderLine.TertiaryDimmed} />}
