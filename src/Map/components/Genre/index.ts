@@ -63,7 +63,7 @@ const Genre: (props: GenreProps) => DisplayObject = ({ startYear, endYear }) => 
     }
 
     const genrePolygon = GenreWrapper({ start }); // hexagon
-    const genreIcon = Icon({ start, path: './icons/rpg.svg' });
+    const genreIcon = Icon({ start, path: '/icons/rpg.svg' });
     const genreTitle = Title({ title: DUMMY_TITLE, genreIcon, id: DUMMY_ID });
 
     // vertical alignment between title/icon

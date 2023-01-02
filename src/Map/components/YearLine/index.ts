@@ -2,7 +2,8 @@ import { Graphics } from 'pixi.js';
 
 import app from 'map/modules/app';
 import { HEIGHT_YEAR, WIDTH_YEAR } from 'map/modules/constants';
-import { subscribeScreenEvent } from 'map/modules/screen';
+import CustomGameEvent from 'map/modules/CustomGameEvent';
+import { subscribeCustomEvent } from 'map/modules/events';
 
 interface YearProps {
     position: number;
@@ -20,7 +21,7 @@ const YearLine: (props: YearProps) => Graphics = ({ position }) => {
         .moveTo(x, 0)
         .lineTo(x, app.view.height - HEIGHT_YEAR);
 
-    subscribeScreenEvent(() => {
+    subscribeCustomEvent(CustomGameEvent.Resolution, () => {
         yearLine
             .clear()
             .lineStyle(LINE_STYLE)

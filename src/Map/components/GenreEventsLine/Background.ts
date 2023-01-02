@@ -2,7 +2,8 @@ import { Container, Graphics } from 'pixi.js';
 
 import app from 'map/modules/app';
 import { HEIGHT_YEAR, WIDTH_BORDER } from 'map/modules/constants';
-import { subscribeScreenEvent } from 'map/modules/screen';
+import CustomGameEvent from 'map/modules/CustomGameEvent';
+import { subscribeCustomEvent } from 'map/modules/events';
 
 import { PADDING_WRAPPER } from 'map/components/GenreEvent/constants';
 
@@ -25,7 +26,7 @@ const Background: (props: BackgroundProps) => Graphics = ({ parentContainer, scr
         ])
         .endFill();
 
-    subscribeScreenEvent(() => {
+    subscribeCustomEvent(CustomGameEvent.Resolution, () => {
         const height = app.view.height - (HEIGHT_YEAR + WIDTH_BORDER) - parentContainer.y - PADDING_WRAPPER;
         background
             .clear()

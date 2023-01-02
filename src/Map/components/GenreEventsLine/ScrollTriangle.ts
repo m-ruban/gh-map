@@ -1,6 +1,7 @@
 import { Container, Graphics, IPointData } from 'pixi.js';
 
-import { subscribeScreenEvent } from 'map/modules/screen';
+import CustomGameEvent from 'map/modules/CustomGameEvent';
+import { subscribeCustomEvent } from 'map/modules/events';
 
 export enum Position {
     Top = 'top',
@@ -43,7 +44,7 @@ const ScrollTriangle: (props: ScrollTriangleProps) => Container = ({ parent, pos
     scrollTriangle.visible = false;
 
     if (position === Position.Bottom) {
-        subscribeScreenEvent(() => {
+        subscribeCustomEvent(CustomGameEvent.Resolution, () => {
             scrollTriangle.y = parent.y + parent.height + TRIANGLE_MARGIN;
         });
     }

@@ -1,6 +1,7 @@
 import { Container, FederatedWheelEvent } from 'pixi.js';
 
-import { subscribeScreenEvent } from 'map/modules/screen';
+import CustomGameEvent from 'map/modules/CustomGameEvent';
+import { subscribeCustomEvent } from 'map/modules/events';
 
 import GenreEventComponent, { GenreEvent } from 'map/components/GenreEvent';
 import { PADDING_WRAPPER } from 'map/components/GenreEvent/constants';
@@ -16,22 +17,22 @@ interface GenreEventsLineProps {
 
 const DUMMY_EVENTS = [
     {
-        img: './images/1.jpg',
+        img: '/images/1.jpg',
         title: 'Door Kickers: Action Squad',
         type: GenreEventType.Game,
     },
     {
-        img: './images/2.jpg',
+        img: '/images/2.jpg',
         title: 'Sony PlayStation 2',
         type: GenreEventType.Platform,
     },
     {
-        img: './images/3.jpg',
+        img: '/images/3.jpg',
         title: 'Submarine Titans',
         type: GenreEventType.Other,
     },
     {
-        img: './images/1.jpg',
+        img: '/images/1.jpg',
         title: 'Door Kickers: Action',
         type: GenreEventType.Game,
     },
@@ -81,7 +82,7 @@ const GenreEventsLine: (props: GenreEventsLineProps) => Container = ({ x, y, gen
     bottomTriangle.visible = showAnyScrollTriangle;
 
     // recalc border after resize
-    subscribeScreenEvent(() => {
+    subscribeCustomEvent(CustomGameEvent.Resolution, () => {
         genreEventLineScrollableContainer.y = 0;
         bottomScrollBorder = (genreEventLineScrollableContainer.height - background.height) * -1;
         showAnyScrollTriangle = genreEventLineScrollableContainer.height > genreEventLineContainer.height;

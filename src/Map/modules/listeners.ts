@@ -2,8 +2,9 @@ import { FederatedEvent, FederatedPointerEvent } from 'pixi.js';
 
 import app from 'map/modules/app';
 import { APP_SELECTOR, COUNT_YEARS, RESOLUTION, WIDTH_YEAR } from 'map/modules/constants';
+import CustomGameEvent from 'map/modules/CustomGameEvent';
 import debounce from 'map/modules/debounce';
-import { subscribeScreenEvent } from 'map/modules/screen';
+import { subscribeCustomEvent } from 'map/modules/events';
 
 export const isCanvasTarget = (event: FederatedEvent): boolean => {
     const target = event.nativeEvent.target as HTMLElement;
@@ -50,7 +51,7 @@ const listeners: () => void = () => {
     }, 200);
     window.addEventListener('resize', onResize);
 
-    subscribeScreenEvent(() => {
+    subscribeCustomEvent(CustomGameEvent.Resolution, () => {
         RIGHT_SCROLL_BORDER = (WIDTH_YEAR * COUNT_YEARS - app.view.width) * -1;
     });
 

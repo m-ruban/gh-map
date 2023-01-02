@@ -2,7 +2,8 @@ import { Container, TextStyle } from 'pixi.js';
 
 import app from 'map/modules/app';
 import { HEIGHT_YEAR, START_YEAR, WIDTH_BORDER, WIDTH_YEAR, YEAR_CORNER } from 'map/modules/constants';
-import { subscribeScreenEvent } from 'map/modules/screen';
+import CustomGameEvent from 'map/modules/CustomGameEvent';
+import { subscribeCustomEvent } from 'map/modules/events';
 
 import InfoTip from 'map/components/InfoTip';
 import Title from 'map/components/Year/Title';
@@ -29,7 +30,7 @@ const Year: (props: YearProps) => Container = ({ position, style }) => {
     yearContainer.addChild(wrapper);
     yearContainer.addChild(title);
 
-    subscribeScreenEvent(() => {
+    subscribeCustomEvent(CustomGameEvent.Resolution, () => {
         wrapper.y = app.view.height - HEIGHT_YEAR - WIDTH_BORDER / 2;
         title.y = app.view.height - HEIGHT_YEAR / 2;
     });
@@ -40,7 +41,7 @@ const Year: (props: YearProps) => Container = ({ position, style }) => {
         const { infoTip, onChangeScale } = InfoTip({ x: tipX, y: tipY });
         yearContainer.addChild(infoTip);
 
-        subscribeScreenEvent(() => {
+        subscribeCustomEvent(CustomGameEvent.Resolution, () => {
             onChangeScale({ x: (position + 1) * WIDTH_YEAR + ICON_PADDING, y: wrapper.y });
         });
     }
