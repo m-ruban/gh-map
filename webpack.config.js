@@ -15,12 +15,14 @@ module.exports = {
     output: {
         filename: modeEnv === 'development' ? '[name].js' : '[name]-[chunkhash].js',
         path: outputPath,
+        publicPath: '/',
     },
     devServer: {
         static: {
             directory: path.join(__dirname, 'public'),
         },
         port: 8000,
+        historyApiFallback: true,
     },
     resolve: {
         alias: {
