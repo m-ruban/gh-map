@@ -3,6 +3,7 @@ import React from 'react';
 import BottomActions from 'side-bar/components/BottomActions';
 import GenreView from 'side-bar/components/GenreView';
 import Settings from 'side-bar/components/Settings';
+import TipView from 'side-bar/components/TipView';
 import TopActions from 'side-bar/components/TopActions';
 
 import 'gg-ukit/styles/fonts.less';
@@ -15,6 +16,7 @@ const App = () => (
         <Settings />
         <BottomActions />
         <GenreView />
+        <TipView />
     </>
 );
 

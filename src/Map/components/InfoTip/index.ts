@@ -1,27 +1,16 @@
-import { Container, FederatedPointerEvent, IPointData, Sprite, Texture } from 'pixi.js';
+import { FederatedPointerEvent, Sprite, Texture } from 'pixi.js';
 
-import app from 'map/modules/app';
+import CustomGameEvent from 'map/modules/CustomGameEvent';
 import { isCanvasTarget } from 'map/modules/listeners';
 
 import { ICON_SIZE, PADDING } from 'map/components/InfoTip/constants';
-import InfoTipContent from 'map/components/InfoTip/InfoTipContent';
-import InfoTipPosition from 'map/components/InfoTip/InfoTipPosition';
-
-const DUMMY_TEXT =
-    'Где-то влияние, великого отца ужасов, ощущается меньше, как в сериях Amnesia и Layers of Fear. А где-то можно найти лишь лавкрафтовские крохи, например, в первом. Но, если рассматривать конкретно жанр игровых ужасов, то получается довольно мемная картинка. Где-то Лавкрафта видно целиком, например, в Sinking City или в Call of Cthulhu.';
 
 interface InfoTipProps {
     x: number;
     y: number;
-    position?: InfoTipPosition;
 }
 
-interface InfoTipResult {
-    infoTip: Sprite;
-    onChangeScale: ({ x, y }: IPointData) => void;
-}
-
-const InfoTip: (props: InfoTipProps) => InfoTipResult = ({ x, y, position = InfoTipPosition.Top }) => {
+const InfoTip: (props: InfoTipProps) => Sprite = ({ x, y }) => {
     // trigger
     const infoTexture = Texture.from('/icons/info.svg');
     const trigger = new Sprite(infoTexture);
@@ -30,31 +19,25 @@ const InfoTip: (props: InfoTipProps) => InfoTipResult = ({ x, y, position = Info
     trigger.height = ICON_SIZE;
     trigger.width = ICON_SIZE;
 
-    const onChangeScale = ({ x, y }: IPointData) => {
-        trigger.x = x - ICON_SIZE - PADDING;
-        trigger.y = y + PADDING;
-    };
-
-    // render content by hover
-    let infoTipContent: Container;
+    // render sheet by click
     trigger.interactive = true;
     trigger.cursor = 'pointer';
-    trigger.on('pointerenter', (event: FederatedPointerEvent) => {
+    trigger.on('click', (event: FederatedPointerEvent) => {
         if (!isCanvasTarget(event)) {
             return;
         }
-        infoTipContent = InfoTipContent({ trigger, position, text: DUMMY_TEXT });
-        // use app container for to give higher order
-        app.stage.addChild(infoTipContent);
+        const openTipEvent = new CustomEvent(CustomGameEvent.TipOpen, {
+            detail: {
+                id: 111,
+            },
+        });
+        document.dispatchEvent(openTipEvent);
         trigger.alpha = 0.6;
     });
     trigger.on('pointerleave', () => {
-        if (infoTipContent) {
-            infoTipContent.destroy();
-        }
         trigger.alpha = 1;
     });
-    return { infoTip: trigger, onChangeScale };
+    return trigger;
 };
 
 export default InfoTip;
