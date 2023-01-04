@@ -4,7 +4,7 @@ import { ICON_SIZE, PADDING_INFO } from 'map/components/GenreEvent/constants';
 import GenreEventType from 'map/components/GenreEvent/GenreEventType';
 
 const ICONS_BY_TYPE = {
-    [GenreEventType.Game]: '/icons/game1.svg',
+    [GenreEventType.Game]: '/icons/game.svg',
     [GenreEventType.Platform]: '/icons/pc.svg',
     [GenreEventType.Other]: '/icons/other.svg',
 };
