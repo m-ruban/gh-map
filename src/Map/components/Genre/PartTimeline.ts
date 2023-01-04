@@ -1,8 +1,6 @@
 import { Graphics } from 'pixi.js';
 
-import { WIDTH_YEAR } from 'map/modules/constants';
-
-import { GENRE_HEIGHT, GENRE_TOP_PADDING } from 'map/components/Genre/constants';
+import { GENRE_HEIGHT, GENRE_TOP_PADDING, WIDTH_YEAR } from 'map/modules/constants';
 
 interface PartTimelineProps {
     start: number;

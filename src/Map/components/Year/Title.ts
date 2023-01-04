@@ -1,13 +1,20 @@
 import { Text, TextStyle } from 'pixi.js';
 
+import { FontFamily } from 'map/modules/fonts';
+
 interface TitleProps {
     x: number;
     y: number;
     year: string;
-    style: TextStyle;
 }
 
-const Title: (props: TitleProps) => Text = ({ x, y, year, style }) => {
+const Title: (props: TitleProps) => Text = ({ x, y, year }) => {
+    const style = new TextStyle({
+        fontFamily: FontFamily.Montserrat,
+        fontSize: 64,
+        fill: [0xffffff],
+    });
+
     const title = new Text(year, style);
     title.x = x;
     title.y = y;

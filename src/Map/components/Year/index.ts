@@ -1,9 +1,6 @@
-import { Container, TextStyle } from 'pixi.js';
+import { Container } from 'pixi.js';
 
-import app from 'map/modules/app';
-import { HEIGHT_YEAR, START_YEAR, WIDTH_BORDER, WIDTH_YEAR, YEAR_CORNER } from 'map/modules/constants';
-import CustomGameEvent from 'map/modules/CustomGameEvent';
-import { subscribeCustomEvent } from 'map/modules/events';
+import { HEIGHT_YEAR, START_YEAR, WIDTH_YEAR, YEAR_CORNER } from 'map/modules/constants';
 
 import InfoTip from 'map/components/InfoTip';
 import Title from 'map/components/Year/Title';
@@ -13,37 +10,26 @@ const DUMMY_INFO_TIP_TEXT: number[] = [1999, 2001];
 
 interface YearProps {
     position: number;
-    style: TextStyle;
 }
 
 const ICON_PADDING = 10;
 
-const Year: (props: YearProps) => Container = ({ position, style }) => {
+const Year: (props: YearProps) => Container = ({ position }) => {
     const yearContainer = new Container();
-    const wrapper = Wrapper({ x: position * WIDTH_YEAR, y: app.view.height - HEIGHT_YEAR - WIDTH_BORDER / 2 });
+    const wrapper = Wrapper({ x: position * WIDTH_YEAR });
     const title = Title({
         x: position * WIDTH_YEAR + WIDTH_YEAR / 2 + YEAR_CORNER / 2,
-        y: app.view.height - HEIGHT_YEAR / 2,
+        y: HEIGHT_YEAR / 2,
         year: `${START_YEAR + position} г.`,
-        style,
     });
     yearContainer.addChild(wrapper);
     yearContainer.addChild(title);
 
-    subscribeCustomEvent(CustomGameEvent.Resolution, () => {
-        wrapper.y = app.view.height - HEIGHT_YEAR - WIDTH_BORDER / 2;
-        title.y = app.view.height - HEIGHT_YEAR / 2;
-    });
-
     if (DUMMY_INFO_TIP_TEXT.includes(START_YEAR + position)) {
         const tipX = (position + 1) * WIDTH_YEAR + ICON_PADDING;
-        const tipY = wrapper.y;
-        const { infoTip, onChangeScale } = InfoTip({ x: tipX, y: tipY });
+        const tipY = 0;
+        const infoTip = InfoTip({ x: tipX, y: tipY });
         yearContainer.addChild(infoTip);
-
-        subscribeCustomEvent(CustomGameEvent.Resolution, () => {
-            onChangeScale({ x: (position + 1) * WIDTH_YEAR + ICON_PADDING, y: wrapper.y });
-        });
     }
     return yearContainer;
 };

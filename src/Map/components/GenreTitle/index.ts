@@ -1,10 +1,8 @@
 import { FederatedPointerEvent, Sprite, Text, TextStyle } from 'pixi.js';
 
-import CustomGameEvent from 'map/modules/CustomGameEvent';
+import { GENRE_OFFSET, GENRE_WIDTH } from 'map/modules/constants';
 import { FontFamily } from 'map/modules/fonts';
 import { isCanvasTarget } from 'map/modules/listeners';
-
-import { GENRE_OFFSET, GENRE_WIDTH } from 'map/components/Genre/constants';
 
 const TEXT_LEFT_PADDING = 15;
 const GENRE_INFO_MARGIN = 20;
@@ -19,18 +17,26 @@ const titleStyle = new TextStyle({
     lineHeight: 45,
 });
 
-interface TitleProps {
-    id: number;
+interface GenreTitleProps {
     title: string;
     genreIcon: Sprite;
+    onClick: () => void;
 }
 
-const Title: (props: TitleProps) => Text = ({ title, genreIcon, id }) => {
+// vertical alignment between title/icon
+export const alignmentIconAndTitle: (genreIcon: Sprite, genreTitle: Text) => void = (genreIcon, genreTitle) => {
+    if (genreTitle.height > genreIcon.height) {
+        genreIcon.y = (genreTitle.height - genreIcon.height) / 2;
+    } else {
+        genreTitle.y = (genreIcon.height - genreTitle.height) / 2;
+    }
+};
+
+const GenreTitle: (props: GenreTitleProps) => Text = ({ title, genreIcon, onClick }) => {
     // title
     const genreTitle = new Text(title, titleStyle);
     genreTitle.x = genreIcon.x + TEXT_LEFT_PADDING + genreIcon.width;
-
-    // title interactive
+    // title callbacks
     genreTitle.interactive = true;
     genreTitle.cursor = 'pointer';
     genreTitle.on('pointerenter', (event: FederatedPointerEvent) => {
@@ -43,12 +49,7 @@ const Title: (props: TitleProps) => Text = ({ title, genreIcon, id }) => {
         if (!isCanvasTarget(event)) {
             return;
         }
-        const openGenreEvent = new CustomEvent(CustomGameEvent.GenreOpen, {
-            detail: {
-                id,
-            },
-        });
-        document.dispatchEvent(openGenreEvent);
+        onClick();
     });
     genreTitle.on('pointerleave', () => {
         genreTitle.alpha = 1;
@@ -56,4 +57,4 @@ const Title: (props: TitleProps) => Text = ({ title, genreIcon, id }) => {
     return genreTitle;
 };
 
-export default Title;
+export default GenreTitle;

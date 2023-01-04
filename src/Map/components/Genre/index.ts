@@ -1,16 +1,15 @@
 import { Container, DisplayObject } from 'pixi.js';
 
-import { WIDTH_BORDER, WIDTH_YEAR } from 'map/modules/constants';
+import { GENRE_TOP_PADDING, WIDTH_BORDER, WIDTH_YEAR } from 'map/modules/constants';
+import CustomGameEvent from 'map/modules/CustomGameEvent';
 
-import { GENRE_TOP_PADDING } from 'map/components/Genre/constants';
 import Description from 'map/components/Genre/Description';
 import GenreWrapper from 'map/components/Genre/GenreWrapper';
-import Icon from 'map/components/Genre/Icon';
 import PartTimeline from 'map/components/Genre/PartTimeline';
-import Title from 'map/components/Genre/Title';
 import GenreEventsLine from 'map/components/GenreEventsLine';
+import GenreIcon from 'map/components/GenreIcon';
+import GenreTitle, { alignmentIconAndTitle } from 'map/components/GenreTitle';
 import InfoTip from 'map/components/InfoTip';
-import InfoTipPosition from 'map/components/InfoTip/InfoTipPosition';
 
 interface GenreProps {
     startYear: number;
@@ -47,7 +46,7 @@ const Genre: (props: GenreProps) => DisplayObject = ({ startYear, endYear }) => 
 
             // tip for description
             const tipX = start + (position + 1) * WIDTH_YEAR;
-            const { infoTip } = InfoTip({ x: tipX, y: GENRE_TOP_PADDING, position: InfoTipPosition.Bottom });
+            const infoTip = InfoTip({ x: tipX, y: GENRE_TOP_PADDING });
             partTimelineInfoContainer.addChild(infoTip);
 
             // events line
@@ -62,16 +61,18 @@ const Genre: (props: GenreProps) => DisplayObject = ({ startYear, endYear }) => 
         genreTimeline.addChild(partTimelineContainer);
     }
 
+    const onClickTitle = () => {
+        const openGenreEvent = new CustomEvent(CustomGameEvent.GenreOpen, {
+            detail: {
+                id: DUMMY_ID,
+            },
+        });
+        document.dispatchEvent(openGenreEvent);
+    };
     const genrePolygon = GenreWrapper({ start }); // hexagon
-    const genreIcon = Icon({ start, path: '/icons/rpg.svg' });
-    const genreTitle = Title({ title: DUMMY_TITLE, genreIcon, id: DUMMY_ID });
-
-    // vertical alignment between title/icon
-    if (genreTitle.height > genreIcon.height) {
-        genreIcon.y = (genreTitle.height - genreIcon.height) / 2;
-    } else {
-        genreTitle.y = (genreIcon.height - genreTitle.height) / 2;
-    }
+    const genreIcon = GenreIcon({ x: start, path: '/icons/rpg.svg' });
+    const genreTitle = GenreTitle({ title: DUMMY_TITLE, genreIcon, onClick: onClickTitle });
+    alignmentIconAndTitle(genreIcon, genreTitle);
 
     // prepare info container
     const genreInfo = new Container();

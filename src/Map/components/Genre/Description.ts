@@ -1,9 +1,7 @@
 import { Graphics, Text, TextStyle } from 'pixi.js';
 
-import { WIDTH_YEAR } from 'map/modules/constants';
+import { GENRE_HEIGHT, GENRE_TOP_PADDING, WIDTH_YEAR } from 'map/modules/constants';
 import { FontFamily } from 'map/modules/fonts';
-
-import { GENRE_HEIGHT, GENRE_TOP_PADDING } from 'map/components/Genre/constants';
 
 const DESCRIPTION_PADDING = 15;
 

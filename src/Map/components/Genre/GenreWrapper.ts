@@ -1,8 +1,6 @@
 import { Graphics } from 'pixi.js';
 
-import { WIDTH_YEAR } from 'map/modules/constants';
-
-import { GENRE_HEIGHT, GENRE_OFFSET, GENRE_WIDTH } from 'map/components/Genre/constants';
+import { GENRE_HEIGHT, GENRE_OFFSET, GENRE_WIDTH, WIDTH_YEAR } from 'map/modules/constants';
 
 const GENRE_MARGIN = (WIDTH_YEAR - GENRE_WIDTH) / 2;
 const GENRE_CORNER = 56;

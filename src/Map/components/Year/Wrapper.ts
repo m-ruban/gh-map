@@ -4,14 +4,13 @@ import { HEIGHT_YEAR, WIDTH_BORDER, WIDTH_YEAR, YEAR_CORNER } from 'map/modules/
 
 interface WrapperProps {
     x: number;
-    y: number;
 }
 
-const Wrapper: (props: WrapperProps) => Graphics = ({ x, y }) => {
+const Wrapper: (props: WrapperProps) => Graphics = ({ x }) => {
     const wrapper = new Graphics();
 
     wrapper.x = x;
-    wrapper.y = y;
+    wrapper.y = 0;
     wrapper.lineStyle({ color: 0x404a53, width: WIDTH_BORDER });
     wrapper.beginFill(0x262a2f);
     wrapper.drawPolygon([
