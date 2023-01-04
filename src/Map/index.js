@@ -21,10 +21,10 @@ const getComponentRoute = () => {
 
 // init app after fonts
 fonts.then(() => {
-    const Component = getComponentRoute();
-    app.stage.addChild(Component());
+    const RouteComponent = getComponentRoute();
+    app.stage.addChild(RouteComponent());
     app.stage.addChild(Timeline());
-    listeners();
+    listeners(RouteComponent === GenreList);
 });
 
 // pixi debug
