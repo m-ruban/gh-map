@@ -60,7 +60,6 @@ const listeners: (vertical: boolean) => void = (vertical: boolean) => {
     };
 
     // scroll listeners
-    // TO DO need adaptive in genre list
     app.stage.on('pointerdown', () => {
         app.stage.on('pointermove', onMove);
     });
