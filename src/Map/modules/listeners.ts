@@ -53,9 +53,11 @@ const listeners: (vertical: boolean) => void = (vertical: boolean) => {
             dispatchCustomEvent(CustomGameEvent.CommonScroll, eventData);
         }
         prevPoint = { x: point.x, y: point.y };
+        app.stage.cursor = vertical ? 'move' : 'ew-resize';
     };
     const onUpOrLeave: () => void = () => {
         prevPoint = undefined;
+        app.stage.cursor = 'auto';
         app.stage.off('pointermove', onMove);
     };
 

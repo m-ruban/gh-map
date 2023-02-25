@@ -1,6 +1,8 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyPluginPlugin = require('copy-webpack-plugin');
+const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
+const TerserPlugin = require('terser-webpack-plugin');
 
 const rootPath = path.resolve(__dirname, 'src');
 const entryPath = path.resolve(rootPath, 'index.js');
@@ -16,6 +18,7 @@ module.exports = {
         filename: modeEnv === 'development' ? '[name].js' : '[name]-[chunkhash].js',
         path: outputPath,
         publicPath: '/',
+        clean: true,
     },
     devServer: {
         static: {
@@ -70,6 +73,7 @@ module.exports = {
     ],
     optimization: {
         minimize: true,
+        minimizer: [new TerserPlugin(), new CssMinimizerPlugin()],
         runtimeChunk: {
             name: 'runtime',
         },
@@ -79,14 +83,28 @@ module.exports = {
             maxAsyncRequests: 30,
             maxInitialRequests: 30,
             cacheGroups: {
+                gg: {
+                    name: 'gg',
+                    test: (entry) => entry.context && entry.context.match(/gg-ukit/),
+                    chunks: 'all',
+                    priority: 4,
+                },
+                pixi: {
+                    name: 'pixi',
+                    test: (entry) => {
+                        return entry.context && entry.context.match(/@pixi/);
+                    },
+                    chunks: 'all',
+                    priority: 3,
+                },
                 vendor: {
                     name: 'vendor',
                     test: /node_modules/,
                     chunks: 'all',
-                    priority: 3,
+                    priority: 2,
                 },
             },
         },
     },
-    devtool: 'inline-source-map',
+    devtool: process.env.NODE_ENV === 'development' ? 'source-map' : undefined,
 };
