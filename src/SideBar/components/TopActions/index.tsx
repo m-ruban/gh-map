@@ -7,6 +7,12 @@ import Search from 'side-bar/components/Search';
 
 import 'side-bar/components/TopActions/top-actions.less';
 
+export const TopActionsLogo: FC = () => (
+    <div className="top-actions">
+        <Logo />
+    </div>
+);
+
 const TopActions: FC = () => (
     <div className="top-actions">
         <Logo />

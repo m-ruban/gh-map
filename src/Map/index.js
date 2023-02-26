@@ -1,5 +1,7 @@
 import * as PIXI from 'pixi.js';
 
+import mobile from 'root/mobile';
+
 import app from 'map/modules/app';
 import fonts from 'map/modules/fonts';
 import listeners from 'map/modules/listeners';
@@ -12,8 +14,7 @@ import GenreList from 'map/pages/GenreList';
 // add route by event
 const GENRE_REGEX = /^\/([a-zA-Z0-9\-\_]*)\/$/;
 const getComponentRoute = () => {
-    const pathname = window.location.pathname;
-    if (GENRE_REGEX.exec(pathname)) {
+    if (GENRE_REGEX.exec(window.location.pathname)) {
         return GenreDetail;
     }
     return GenreList;
@@ -21,6 +22,9 @@ const getComponentRoute = () => {
 
 // init app after fonts
 fonts.then(() => {
+    if (mobile()) {
+        return;
+    }
     const RouteComponent = getComponentRoute();
     app.stage.addChild(RouteComponent());
     app.stage.addChild(Timeline());
