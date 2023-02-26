@@ -22,21 +22,17 @@ const GenreListView: (props: GenreListViewProps) => Container = ({ title, code, 
     const genreListItemContainer = new Container();
 
     // prepare genre content
-    const onClickGenreTitle = () => {
-        window.location.href = `/${code}/`;
-    };
     const genreWrapper = GenreListWrapper({ start, end, position });
 
     const genreIcon = GenreIcon({ x: 0, path: icon });
     const genreTitle = GenreTitle({
         title,
         genreIcon,
-        onClick: onClickGenreTitle,
     });
     alignmentIconAndTitle(genreIcon, genreTitle);
 
     // prepare info container
-    const genreInfo = GenreListInfo({ genreIcon, genreTitle, genreWrapper, start });
+    const genreInfo = GenreListInfo({ genreIcon, genreTitle, genreWrapper, start, code });
 
     genreListItemContainer.addChild(genreWrapper);
     genreListItemContainer.addChild(genreInfo);

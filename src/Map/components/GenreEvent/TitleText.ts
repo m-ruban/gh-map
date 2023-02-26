@@ -1,6 +1,4 @@
-import { FederatedPointerEvent, Graphics, Sprite, Text, TextStyle } from 'pixi.js';
-
-import { isCanvasTarget } from 'map/modules/listeners';
+import { Graphics, Sprite, Text, TextStyle } from 'pixi.js';
 
 import { PADDING_INFO } from 'map/components/GenreEvent/constants';
 
@@ -15,17 +13,6 @@ const TitleText: (props: InfoProps) => Text = ({ infoIcon, title, titleWrapper, 
     const titleText = new Text(title.toUpperCase(), titleStyle);
     titleText.x = infoIcon.x + infoIcon.width + PADDING_INFO;
     titleText.y = titleWrapper.y + PADDING_INFO;
-    titleText.interactive = true;
-    titleText.cursor = 'pointer';
-    titleText.on('pointerenter', (event: FederatedPointerEvent) => {
-        if (!isCanvasTarget(event)) {
-            return;
-        }
-        titleText.alpha = 0.7;
-    });
-    titleText.on('pointerleave', () => {
-        titleText.alpha = 1;
-    });
     return titleText;
 };
 

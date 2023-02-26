@@ -1,7 +1,8 @@
-import { Container, DisplayObject } from 'pixi.js';
+import { Container, DisplayObject, FederatedPointerEvent } from 'pixi.js';
 
 import { GENRE_TOP_PADDING, WIDTH_BORDER, WIDTH_YEAR } from 'map/modules/constants';
 import CustomGameEvent from 'map/modules/CustomGameEvent';
+import { isCanvasTarget } from 'map/modules/listeners';
 
 import Description from 'map/components/Genre/Description';
 import GenreWrapper from 'map/components/Genre/GenreWrapper';
@@ -61,17 +62,9 @@ const Genre: (props: GenreProps) => DisplayObject = ({ startYear, endYear }) => 
         genreTimeline.addChild(partTimelineContainer);
     }
 
-    const onClickTitle = () => {
-        const openGenreEvent = new CustomEvent(CustomGameEvent.GenreOpen, {
-            detail: {
-                id: DUMMY_ID,
-            },
-        });
-        document.dispatchEvent(openGenreEvent);
-    };
     const genrePolygon = GenreWrapper({ start }); // hexagon
     const genreIcon = GenreIcon({ x: start, path: '/icons/rpg.svg' });
-    const genreTitle = GenreTitle({ title: DUMMY_TITLE, genreIcon, onClick: onClickTitle });
+    const genreTitle = GenreTitle({ title: DUMMY_TITLE, genreIcon });
     alignmentIconAndTitle(genreIcon, genreTitle);
 
     // prepare info container
@@ -80,6 +73,30 @@ const Genre: (props: GenreProps) => DisplayObject = ({ startYear, endYear }) => 
     genreInfo.addChild(genreTitle);
     genreInfo.x = (WIDTH_YEAR - genreInfo.width) / 2;
     genreInfo.y = (genrePolygon.height - genreInfo.height) / 2;
+
+    // genre info hover and click
+    genreInfo.interactive = true;
+    genreInfo.cursor = 'pointer';
+    genreInfo.on('pointerenter', (event: FederatedPointerEvent) => {
+        if (!isCanvasTarget(event)) {
+            return;
+        }
+        genreInfo.alpha = 0.7;
+    });
+    genreInfo.on('click', (event: FederatedPointerEvent) => {
+        if (!isCanvasTarget(event)) {
+            return;
+        }
+        const openGenreEvent = new CustomEvent(CustomGameEvent.GenreOpen, {
+            detail: {
+                id: DUMMY_ID,
+            },
+        });
+        document.dispatchEvent(openGenreEvent);
+    });
+    genreInfo.on('pointerleave', () => {
+        genreInfo.alpha = 1;
+    });
 
     // timeline and info
     const genre = new Container();

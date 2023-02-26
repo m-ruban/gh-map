@@ -1,24 +1,52 @@
-import { Container, Graphics, Sprite, Text } from 'pixi.js';
+import { Container, FederatedPointerEvent, Graphics, Sprite, Text } from 'pixi.js';
 
 import app from 'map/modules/app';
 import { SIDEBAR_WIDTH, WIDTH_YEAR } from 'map/modules/constants';
 import CustomGameEvent from 'map/modules/CustomGameEvent';
 import { subscribeCustomEvent } from 'map/modules/events';
+import { isCanvasTarget } from 'map/modules/listeners';
 
 interface GenreListInfoProps {
     genreWrapper: Graphics;
     genreIcon: Sprite;
     genreTitle: Text;
     start: number;
+    code: string;
 }
 
-const GenreListInfo: (props: GenreListInfoProps) => Container = ({ genreWrapper, genreIcon, genreTitle, start }) => {
+const GenreListInfo: (props: GenreListInfoProps) => Container = ({
+    genreWrapper,
+    genreIcon,
+    genreTitle,
+    start,
+    code,
+}) => {
     const genreInfo = new Container();
     genreInfo.addChild(genreIcon);
     genreInfo.addChild(genreTitle);
     genreInfo.x = start * WIDTH_YEAR + (WIDTH_YEAR - genreInfo.width) / 2;
     genreInfo.y = genreWrapper.y + (genreWrapper.height - genreInfo.height) / 2;
 
+    // genre info hover and click
+    genreInfo.interactive = true;
+    genreInfo.cursor = 'pointer';
+    genreInfo.on('pointerenter', (event: FederatedPointerEvent) => {
+        if (!isCanvasTarget(event)) {
+            return;
+        }
+        genreInfo.alpha = 0.7;
+    });
+    genreInfo.on('click', (event: FederatedPointerEvent) => {
+        if (!isCanvasTarget(event)) {
+            return;
+        }
+        window.location.href = `/${code}/`;
+    });
+    genreInfo.on('pointerleave', () => {
+        genreInfo.alpha = 1;
+    });
+
+    // move title and icon
     const rightBorder = genreWrapper.x + genreWrapper.width;
     const leftBorder = genreInfo.x;
     subscribeCustomEvent(CustomGameEvent.CommonScroll, (event) => {

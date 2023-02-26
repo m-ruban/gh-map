@@ -1,8 +1,7 @@
-import { FederatedPointerEvent, Sprite, Text, TextStyle } from 'pixi.js';
+import { Sprite, Text, TextStyle } from 'pixi.js';
 
 import { GENRE_OFFSET, GENRE_WIDTH } from 'map/modules/constants';
 import { FontFamily } from 'map/modules/fonts';
-import { isCanvasTarget } from 'map/modules/listeners';
 
 const TEXT_LEFT_PADDING = 15;
 const GENRE_INFO_MARGIN = 20;
@@ -20,7 +19,6 @@ const titleStyle = new TextStyle({
 interface GenreTitleProps {
     title: string;
     genreIcon: Sprite;
-    onClick: () => void;
 }
 
 // vertical alignment between title/icon
@@ -32,28 +30,10 @@ export const alignmentIconAndTitle: (genreIcon: Sprite, genreTitle: Text) => voi
     }
 };
 
-const GenreTitle: (props: GenreTitleProps) => Text = ({ title, genreIcon, onClick }) => {
+const GenreTitle: (props: GenreTitleProps) => Text = ({ title, genreIcon }) => {
     // title
     const genreTitle = new Text(title, titleStyle);
     genreTitle.x = genreIcon.x + TEXT_LEFT_PADDING + genreIcon.width;
-    // title callbacks
-    genreTitle.interactive = true;
-    genreTitle.cursor = 'pointer';
-    genreTitle.on('pointerenter', (event: FederatedPointerEvent) => {
-        if (!isCanvasTarget(event)) {
-            return;
-        }
-        genreTitle.alpha = 0.7;
-    });
-    genreTitle.on('click', (event: FederatedPointerEvent) => {
-        if (!isCanvasTarget(event)) {
-            return;
-        }
-        onClick();
-    });
-    genreTitle.on('pointerleave', () => {
-        genreTitle.alpha = 1;
-    });
     return genreTitle;
 };
 
