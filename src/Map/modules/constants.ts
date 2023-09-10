@@ -1,4 +1,4 @@
-export const RESOLUTION = 2;
+export const RESOLUTION = 2.6;
 
 export const HEIGHT_YEAR = 200;
 export const WIDTH_YEAR = 500;

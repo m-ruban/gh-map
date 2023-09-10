@@ -73,7 +73,7 @@ const GenreList: () => Container = () => {
         listContainer.addChild(GenreListView({ ...genre, position }));
     });
 
-    // dummy genre
+    // dummy genre for scroll correction
     listContainer.addChild(DummyGenre({ length: genreList.length }));
 
     return listContainer;
