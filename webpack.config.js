@@ -26,6 +26,10 @@ module.exports = {
         },
         port: 8000,
         historyApiFallback: true,
+        allowedHosts: 'all',
+        headers: {
+            'Access-Control-Allow-Origin': 'http://localhost:8000',
+        },
     },
     resolve: {
         alias: {

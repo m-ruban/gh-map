@@ -3,6 +3,7 @@ import * as PIXI from 'pixi.js';
 import mobile from 'root/mobile';
 
 import app from 'map/modules/app';
+import fetcher from 'map/modules/fetcher';
 import fonts from 'map/modules/fonts';
 import listeners from 'map/modules/listeners';
 
@@ -26,9 +27,11 @@ fonts.then(() => {
         return;
     }
     const RouteComponent = getComponentRoute();
-    app.stage.addChild(RouteComponent());
-    app.stage.addChild(Timeline());
-    listeners(RouteComponent === GenreList);
+    fetcher.get('http://dev.gamespirit.org/api/v1/map/').then(() => {
+        app.stage.addChild(RouteComponent());
+        app.stage.addChild(Timeline());
+        listeners(RouteComponent === GenreList);
+    });
 });
 
 // pixi debug
