@@ -1,6 +1,6 @@
 import { Application } from 'pixi.js';
 
-import mobile from 'root/mobile';
+import mobile from 'src/modules/mobile';
 
 import { APP_SELECTOR, RESOLUTION } from 'map/modules/constants';
 

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import mobile from 'root/mobile';
+import mobile from 'src/modules/mobile';
 
 import BottomActions from 'side-bar/components/BottomActions';
 import GenreView from 'side-bar/components/GenreView';
@@ -11,7 +11,7 @@ import TopActions, { TopActionsLogo } from 'side-bar/components/TopActions';
 
 import 'gg-ukit/styles/fonts.less';
 import 'gg-ukit/styles/defaults.less';
-import 'side-bar/App.less';
+import './App.less';
 
 const App = () => {
     if (mobile()) {

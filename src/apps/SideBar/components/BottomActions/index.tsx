@@ -3,7 +3,7 @@ import React, { FC } from 'react';
 import MenyIcon from 'side-bar/components/MenuIcon';
 import MenuItem from 'side-bar/components/MenuItem';
 
-import 'side-bar/components/BottomActions/bottom-actions.less';
+import './bottom-actions.less';
 
 const BottomActions: FC = () => (
     <div className="bottom-actions">

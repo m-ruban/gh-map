@@ -12,8 +12,8 @@
         "esModuleInterop": true,
         "paths": {
             "src/*": ["./src/*"],
-            "map/*": ["./src/Map/*"],
-            "side-bar/*": ["./src/SideBar/*"]
+            "map/*": ["./src/apps/Map/*"],
+            "side-bar/*": ["./src/apps/SideBar/*"]
         }
     }
 }
