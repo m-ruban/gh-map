@@ -10,7 +10,7 @@ import SearchAdd from 'gg-ukit/components/Icon/SearchAdd';
 import SearchSubtract from 'gg-ukit/components/Icon/SearchSubtract';
 import SmartHome from 'gg-ukit/components/Icon/SmartHome';
 
-import 'side-bar/components/Settings/settings.less';
+import './settings.less';
 
 const SCALE_STEP = 0.2;
 const LEFT_BORDER = 2;

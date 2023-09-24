@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 
-import 'side-bar/components/Logo/logo.less';
+import './logo.less';
 
 const Logo: FC = () => {
     return (

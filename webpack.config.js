@@ -26,14 +26,18 @@ module.exports = {
         },
         port: 8000,
         historyApiFallback: true,
+        allowedHosts: 'all',
+        headers: {
+            'Access-Control-Allow-Origin': 'http://localhost:8000',
+        },
     },
     resolve: {
         alias: {
-            root: path.resolve(__dirname, 'src/'),
-            map: path.resolve(__dirname, 'src/Map'),
-            ['side-bar']: path.resolve(__dirname, 'src/SideBar'),
+            src: path.resolve(__dirname, 'src/'),
+            map: path.resolve(__dirname, 'src/apps/Map'),
+            ['side-bar']: path.resolve(__dirname, 'src/apps/SideBar'),
         },
-        extensions: ['.js', '.jsx', '.js', '.json', '.svg', '.gif', '.jpg', '.less', '.ts', '.tsx'],
+        extensions: ['.js', '.jsx', '.json', '.svg', '.gif', '.jpg', '.less', '.ts', '.tsx'],
     },
     module: {
         rules: [

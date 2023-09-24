@@ -2,7 +2,7 @@ import React, { FC } from 'react';
 
 import Paragraph from 'gg-ukit/components/Paragraph';
 
-import 'side-bar/components/MobileAlert/mobile-alert.less';
+import './mobile-alert.less';
 
 const MobileAlert: FC = () => {
     return (

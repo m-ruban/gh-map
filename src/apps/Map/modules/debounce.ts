@@ -1,4 +1,4 @@
-function debounce(func, timeout = 300) {
+function debounce(func: () => void, timeout = 300): () => void {
     let timer: null | ReturnType<typeof setTimeout>;
     return (...args: Parameters<typeof func>) => {
         clearTimeout(timer);
