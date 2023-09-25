@@ -9,26 +9,28 @@ export interface Seo {
     meta_keyword?: string;
 }
 
-export interface Category {
+export interface Genre {
     id: number;
     alt_image: string;
     code: string;
     start: number;
+    startKey: number;
     end: number;
+    endKey: number;
     icon: string;
     seo: Seo;
 }
 
-const initialState: Category[] = [];
+const initialState: Genre[] = [];
 
 export const slice = createSlice({
-    name: 'categories',
+    name: 'genres',
     initialState,
     reducers: {
-        setCategories: (_, { payload }: PayloadAction<Category[]>) => payload,
+        setGenres: (_, { payload }: PayloadAction<Genre[]>) => payload,
     },
 });
 
-export const { setCategories } = slice.actions;
+export const { setGenres } = slice.actions;
 
 export default slice.reducer;

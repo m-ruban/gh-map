@@ -1,10 +1,11 @@
 import React, { FC, useEffect } from 'react';
 import ReactDOM from 'react-dom';
 
+import { dispatchCustomEvent } from 'src/modules/events';
+import MapEvent from 'src/modules/MapEvent';
+
 import app from 'map/modules/app';
 import { RESOLUTION } from 'map/modules/constants';
-import CustomGameEvent from 'map/modules/CustomGameEvent';
-import { dispatchCustomEvent } from 'map/modules/events';
 
 import SearchAdd from 'gg-ukit/components/Icon/SearchAdd';
 import SearchSubtract from 'gg-ukit/components/Icon/SearchSubtract';
@@ -37,7 +38,7 @@ const zoomOut = () => {
 const zoom = (newResolution: number) => {
     resolution = newResolution;
     app.renderer.resize(window.innerWidth * resolution, window.innerHeight * resolution);
-    dispatchCustomEvent(CustomGameEvent.Resolution);
+    dispatchCustomEvent(MapEvent.Resolution);
 };
 
 const Settings: FC = () => {

@@ -1,6 +1,7 @@
 import { FederatedPointerEvent, Sprite, Texture } from 'pixi.js';
 
-import CustomGameEvent from 'map/modules/CustomGameEvent';
+import MapEvent from 'src/modules/MapEvent';
+
 import { isCanvasTarget } from 'map/modules/listeners';
 
 import { ICON_SIZE, PADDING } from 'map/components/InfoTip/constants';
@@ -8,9 +9,10 @@ import { ICON_SIZE, PADDING } from 'map/components/InfoTip/constants';
 interface InfoTipProps {
     x: number;
     y: number;
+    detail?: Record<string, unknown>;
 }
 
-const InfoTip: (props: InfoTipProps) => Sprite = ({ x, y }) => {
+const InfoTip: (props: InfoTipProps) => Sprite = ({ x, y, detail }) => {
     // trigger
     const infoTexture = Texture.from('/icons/info.svg');
     const trigger = new Sprite(infoTexture);
@@ -26,11 +28,7 @@ const InfoTip: (props: InfoTipProps) => Sprite = ({ x, y }) => {
         if (!isCanvasTarget(event)) {
             return;
         }
-        const openTipEvent = new CustomEvent(CustomGameEvent.TipOpen, {
-            detail: {
-                id: 111,
-            },
-        });
+        const openTipEvent = new CustomEvent(MapEvent.TipOpen, { detail });
         document.dispatchEvent(openTipEvent);
         trigger.alpha = 0.6;
     });

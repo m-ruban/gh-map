@@ -1,6 +1,7 @@
 import { configureStore } from '@reduxjs/toolkit';
 
-import { reducers } from 'src/models/reducers';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import { reducers, RootStore } from 'src/models/reducers';
 
 const createStore = () => {
     return configureStore({
@@ -8,7 +9,7 @@ const createStore = () => {
     });
 };
 
-let store;
+let store: ReturnType<typeof configureStore<RootStore>>;
 
 if (!store) {
     store = createStore();

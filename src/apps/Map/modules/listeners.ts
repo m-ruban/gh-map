@@ -1,10 +1,11 @@
 import { FederatedEvent, FederatedPointerEvent, IPointData } from 'pixi.js';
 
+import debounce from 'src/modules/debounce';
+import { dispatchCustomEvent, subscribeCustomEvent } from 'src/modules/events';
+import MapEvent from 'src/modules/MapEvent';
+
 import app from 'map/modules/app';
 import { APP_SELECTOR, RESOLUTION } from 'map/modules/constants';
-import CustomGameEvent from 'map/modules/CustomGameEvent';
-import debounce from 'map/modules/debounce';
-import { dispatchCustomEvent, subscribeCustomEvent } from 'map/modules/events';
 
 export const isCanvasTarget = (event: FederatedEvent): boolean => {
     const target = event.nativeEvent.target as HTMLElement;
@@ -50,7 +51,7 @@ const listeners: (vertical: boolean) => void = (vertical: boolean) => {
                     deltaY: point.y - prevPoint.y,
                 },
             };
-            dispatchCustomEvent(CustomGameEvent.CommonScroll, eventData);
+            dispatchCustomEvent(MapEvent.CommonScroll, eventData);
         }
         prevPoint = { x: point.x, y: point.y };
         app.stage.cursor = vertical ? 'move' : 'ew-resize';
@@ -75,7 +76,7 @@ const listeners: (vertical: boolean) => void = (vertical: boolean) => {
     }, 200);
     window.addEventListener('resize', onResize);
 
-    subscribeCustomEvent(CustomGameEvent.Resolution, () => {
+    subscribeCustomEvent(MapEvent.Resolution, () => {
         RIGHT_SCROLL_BORDER = (app.stage.width - app.view.width) * -1;
         BOTTOM_SCROLL_BORDER = (app.stage.height - app.view.height) * -1;
     });
@@ -104,7 +105,7 @@ const listeners: (vertical: boolean) => void = (vertical: boolean) => {
             app.renderer.resize(window.innerWidth * RESOLUTION, window.innerHeight * RESOLUTION);
             canvas.style.width = `${window.innerWidth}px`;
             canvas.style.height = `${window.innerHeight}px`;
-            dispatchCustomEvent(CustomGameEvent.MapResize);
+            dispatchCustomEvent(MapEvent.MapResize);
         }, 100)
     );
 };
