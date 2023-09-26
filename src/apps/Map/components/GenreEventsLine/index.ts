@@ -1,7 +1,7 @@
 import { Container, FederatedWheelEvent } from 'pixi.js';
 
-import CustomGameEvent from 'map/modules/CustomGameEvent';
-import { subscribeCustomEvent } from 'map/modules/events';
+import { subscribeCustomEvent } from 'src/modules/events';
+import MapEvent from 'src/modules/MapEvent';
 
 import GenreEventComponent, { GenreEvent } from 'map/components/GenreEvent';
 import { PADDING_WRAPPER } from 'map/components/GenreEvent/constants';
@@ -82,7 +82,7 @@ const GenreEventsLine: (props: GenreEventsLineProps) => Container = ({ x, y, gen
     bottomTriangle.visible = showAnyScrollTriangle;
 
     // recalc border after resize
-    subscribeCustomEvent(CustomGameEvent.Resolution, () => {
+    subscribeCustomEvent(MapEvent.Resolution, () => {
         genreEventLineScrollableContainer.y = 0;
         bottomScrollBorder = (genreEventLineScrollableContainer.height - background.height) * -1;
         showAnyScrollTriangle = genreEventLineScrollableContainer.height > genreEventLineContainer.height;

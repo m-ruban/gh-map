@@ -1,7 +1,8 @@
 import { Container, DisplayObject, FederatedPointerEvent } from 'pixi.js';
 
+import MapEvent from 'src/modules/MapEvent';
+
 import { GENRE_TOP_PADDING, WIDTH_BORDER, WIDTH_YEAR } from 'map/modules/constants';
-import CustomGameEvent from 'map/modules/CustomGameEvent';
 import { isCanvasTarget } from 'map/modules/listeners';
 
 import Description from 'map/components/Genre/Description';
@@ -62,46 +63,47 @@ const Genre: (props: GenreProps) => DisplayObject = ({ startYear, endYear }) => 
         genreTimeline.addChild(partTimelineContainer);
     }
 
-    const genrePolygon = GenreWrapper({ start }); // hexagon
-    const genreIcon = GenreIcon({ x: start, path: '/icons/rpg.svg' });
-    const genreTitle = GenreTitle({ title: DUMMY_TITLE, genreIcon });
-    alignmentIconAndTitle(genreIcon, genreTitle);
-
-    // prepare info container
-    const genreInfo = new Container();
-    genreInfo.addChild(genreIcon);
-    genreInfo.addChild(genreTitle);
-    genreInfo.x = (WIDTH_YEAR - genreInfo.width) / 2;
-    genreInfo.y = (genrePolygon.height - genreInfo.height) / 2;
-
-    // genre info hover and click
-    genreInfo.interactive = true;
-    genreInfo.cursor = 'pointer';
-    genreInfo.on('pointerenter', (event: FederatedPointerEvent) => {
-        if (!isCanvasTarget(event)) {
-            return;
-        }
-        genreInfo.alpha = 0.7;
-    });
-    genreInfo.on('click', (event: FederatedPointerEvent) => {
-        if (!isCanvasTarget(event)) {
-            return;
-        }
-        const openGenreEvent = new CustomEvent(CustomGameEvent.GenreOpen, {
-            detail: {
-                id: DUMMY_ID,
-            },
-        });
-        document.dispatchEvent(openGenreEvent);
-    });
-    genreInfo.on('pointerleave', () => {
-        genreInfo.alpha = 1;
-    });
-
-    // timeline and info
     const genre = new Container();
+    const genrePolygon = GenreWrapper({ start }); // hexagon
     genre.addChild(genrePolygon);
-    genre.addChild(genreInfo);
+    GenreIcon({ x: start, path: 'rpg.svg' }).then((genreIcon) => {
+        const genreTitle = GenreTitle({ title: DUMMY_TITLE, genreIcon });
+        alignmentIconAndTitle(genreIcon, genreTitle);
+
+        // prepare info container
+        const genreInfo = new Container();
+        genreInfo.addChild(genreIcon);
+        genreInfo.addChild(genreTitle);
+        genreInfo.x = (WIDTH_YEAR - genreInfo.width) / 2;
+        genreInfo.y = (genrePolygon.height - genreInfo.height) / 2;
+
+        // genre info hover and click
+        genreInfo.interactive = true;
+        genreInfo.cursor = 'pointer';
+        genreInfo.on('pointerenter', (event: FederatedPointerEvent) => {
+            if (!isCanvasTarget(event)) {
+                return;
+            }
+            genreInfo.alpha = 0.7;
+        });
+        genreInfo.on('click', (event: FederatedPointerEvent) => {
+            if (!isCanvasTarget(event)) {
+                return;
+            }
+            const openGenreEvent = new CustomEvent(MapEvent.GenreOpen, {
+                detail: {
+                    id: DUMMY_ID,
+                },
+            });
+            document.dispatchEvent(openGenreEvent);
+        });
+        genreInfo.on('pointerleave', () => {
+            genreInfo.alpha = 1;
+        });
+
+        // timeline and info
+        genre.addChild(genreInfo);
+    });
 
     // prepare genre container
     const genreContainer = new Container();

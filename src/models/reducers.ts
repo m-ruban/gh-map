@@ -1,10 +1,10 @@
 import { Reducer } from '@reduxjs/toolkit';
 
-import categories from 'src/models/categories';
+import genres from 'src/models/genres';
 import history from 'src/models/history';
 
 export const reducers = {
-    categories,
+    genres,
     history,
 };
 

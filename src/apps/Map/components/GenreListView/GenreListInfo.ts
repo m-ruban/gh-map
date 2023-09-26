@@ -1,9 +1,10 @@
 import { Container, FederatedPointerEvent, Graphics, Sprite, Text } from 'pixi.js';
 
+import { subscribeCustomEvent } from 'src/modules/events';
+import MapEvent from 'src/modules/MapEvent';
+
 import app from 'map/modules/app';
 import { SIDEBAR_WIDTH, WIDTH_YEAR } from 'map/modules/constants';
-import CustomGameEvent from 'map/modules/CustomGameEvent';
-import { subscribeCustomEvent } from 'map/modules/events';
 import { isCanvasTarget } from 'map/modules/listeners';
 
 interface GenreListInfoProps {
@@ -49,7 +50,7 @@ const GenreListInfo: (props: GenreListInfoProps) => Container = ({
     // move title and icon
     const rightBorder = genreWrapper.x + genreWrapper.width;
     const leftBorder = genreInfo.x;
-    subscribeCustomEvent(CustomGameEvent.CommonScroll, (event) => {
+    subscribeCustomEvent(MapEvent.CommonScroll, (event) => {
         if (event.detail.deltaX < 0) {
             // right move
             // need remember about sidebar

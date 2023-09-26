@@ -1,6 +1,6 @@
 import React, { FC, useEffect, useState } from 'react';
 
-import CustomGameEvent from 'map/modules/CustomGameEvent';
+import MapEvent from 'src/modules/MapEvent';
 
 import Column from 'gg-ukit/components/Column';
 import { H2 } from 'gg-ukit/components/Header';
@@ -13,7 +13,7 @@ const GenreView: FC = () => {
     const [showSheet, setShowSheet] = useState(false);
 
     useEffect(() => {
-        document.addEventListener(CustomGameEvent.GenreOpen, (event: CustomEvent) => {
+        document.addEventListener(MapEvent.GenreOpen, (event: CustomEvent) => {
             setGenreId(event.detail.id);
             setShowSheet(!showSheet);
         });
