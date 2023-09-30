@@ -4,6 +4,7 @@ export enum MapEvent {
     Resolution = 'resolution',
     CommonScroll = 'common_scroll',
     MapResize = 'map_resize',
+    ArticleOpen = 'article_open',
 }
 
 export default MapEvent;

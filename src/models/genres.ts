@@ -4,12 +4,12 @@ export interface Seo {
     id: number;
     name: string;
     keyword: string;
-    desc?: string;
+    descr?: string;
     full_text?: string;
     meta_keyword?: string;
 }
 
-export interface Genre {
+export interface GenreShortItem {
     id: number;
     alt_image: string;
     code: string;
@@ -18,16 +18,17 @@ export interface Genre {
     end: number;
     endKey: number;
     icon: string;
+    short_name: string;
     seo: Seo;
 }
 
-const initialState: Genre[] = [];
+const initialState: GenreShortItem[] = [];
 
 export const slice = createSlice({
     name: 'genres',
     initialState,
     reducers: {
-        setGenres: (_, { payload }: PayloadAction<Genre[]>) => payload,
+        setGenres: (_, { payload }: PayloadAction<GenreShortItem[]>) => payload,
     },
 });
 

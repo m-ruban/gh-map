@@ -1,6 +1,6 @@
 import { Container } from 'pixi.js';
 
-import { Genre } from 'src/models/genres';
+import { GenreShortItem } from 'src/models/genres';
 
 import GenreIcon from 'map/components/GenreIcon';
 import GenreListInfo from 'map/components/GenreListView/GenreListInfo';
@@ -8,17 +8,17 @@ import GenreListWrapper from 'map/components/GenreListView/GenreListWrapper';
 import GenreTitle, { alignmentIconAndTitle } from 'map/components/GenreTitle';
 
 interface Props {
-    genre: Genre;
+    genre: GenreShortItem;
     position: number;
 }
 
 const GenreListView: (props: Props) => Container = ({ genre, position }) => {
     const {
-        seo: { name: title },
-        code,
+        seo: { keyword: code },
         alt_image: icon,
         startKey: start,
         endKey: end,
+        short_name: title,
     } = genre;
     const genreListItemContainer = new Container();
 

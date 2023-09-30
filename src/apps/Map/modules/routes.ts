@@ -1,5 +1,6 @@
 import { Container } from 'pixi.js';
 
+import { setGenre } from 'src/models/genre';
 import { setGenres } from 'src/models/genres';
 import { setHistory } from 'src/models/history';
 import store from 'src/models/store';
@@ -20,11 +21,16 @@ interface RouteComponentResult {
 const GENRE_REGEX = /^\/([a-zA-Z0-9\-\_]*)\/$/;
 export const getRouteComponent: () => RouteComponentResult = () => {
     if (GENRE_REGEX.exec(window.location.pathname)) {
+        const path = window.location.pathname.replaceAll('/', '');
         return {
             RouteComponent: GenreDetail,
             vertical: false,
-            urls: [],
-            setData: () => null,
+            urls: [`${apiUrl}/api/v1/map/${path}/`],
+            setData: ([page]) => {
+                const { category: genre, history } = page.data;
+                store.dispatch(setHistory(history));
+                store.dispatch(setGenre(genre));
+            },
         };
     }
     return {
