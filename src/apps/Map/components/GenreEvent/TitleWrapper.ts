@@ -3,16 +3,16 @@ import { Graphics, Sprite, TextMetrics } from 'pixi.js';
 import { PADDING_INFO } from 'map/components/GenreEvent/constants';
 
 interface TitleWrapperProps {
-    genreImage: Sprite;
+    genreEventImage: Sprite;
     metrics: TextMetrics;
 }
 
-const TitleWrapper: (props: TitleWrapperProps) => Graphics = ({ genreImage, metrics }) => {
+const TitleWrapper: (props: TitleWrapperProps) => Graphics = ({ genreEventImage, metrics }) => {
     const titleWrapper = new Graphics();
     titleWrapper.x = 0;
-    titleWrapper.y = genreImage.y + genreImage.height;
+    titleWrapper.y = genreEventImage.y + genreEventImage.height;
     titleWrapper.beginFill(0x2f3539);
-    titleWrapper.drawRect(0, 0, genreImage.width, metrics.height + PADDING_INFO * 2);
+    titleWrapper.drawRect(0, 0, genreEventImage.width, metrics.height + PADDING_INFO * 2);
     titleWrapper.endFill();
     return titleWrapper;
 };

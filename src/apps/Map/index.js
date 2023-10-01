@@ -1,5 +1,3 @@
-import * as PIXI from 'pixi.js';
-
 import mobile from 'src/modules/mobile';
 
 import app from 'map/modules/app';
@@ -29,4 +27,4 @@ fonts.then(async () => {
 });
 
 // pixi debug
-window.__PIXI_INSPECTOR_GLOBAL_HOOK__ && window.__PIXI_INSPECTOR_GLOBAL_HOOK__.register({ PIXI: PIXI });
+globalThis.__PIXI_APP__ = app;

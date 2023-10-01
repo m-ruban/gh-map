@@ -2,10 +2,10 @@ import React from 'react';
 
 import mobile from 'src/modules/mobile';
 
+import ArticleView from 'side-bar/components/ArticleView';
 import BottomActions from 'side-bar/components/BottomActions';
 import GenreView from 'side-bar/components/GenreView';
 import MobileAlert from 'side-bar/components/MobileAlert';
-import Settings from 'side-bar/components/Settings';
 import TipView from 'side-bar/components/TipView';
 import TopActions, { TopActionsLogo } from 'side-bar/components/TopActions';
 
@@ -25,10 +25,10 @@ const App = () => {
     return (
         <>
             <TopActions />
-            <Settings />
             <BottomActions />
             <GenreView />
             <TipView />
+            <ArticleView />
         </>
     );
 };

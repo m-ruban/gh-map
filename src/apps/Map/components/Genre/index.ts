@@ -1,5 +1,6 @@
 import { Container, DisplayObject, FederatedPointerEvent } from 'pixi.js';
 
+import store from 'src/models/store';
 import MapEvent from 'src/modules/MapEvent';
 
 import { GENRE_TOP_PADDING, WIDTH_BORDER, WIDTH_YEAR } from 'map/modules/constants';
@@ -13,61 +14,69 @@ import GenreIcon from 'map/components/GenreIcon';
 import GenreTitle, { alignmentIconAndTitle } from 'map/components/GenreTitle';
 import InfoTip from 'map/components/InfoTip';
 
-interface GenreProps {
-    startYear: number;
-    endYear: number;
-}
-
-const DUMMY_ID = 11;
-const DUMMY_TITLE = 'RPG';
-const DUMMY_TEXTS = {
-    '1': 'Становление основ жанра',
-    '3': 'Первая 3D RPG игра в истории',
-};
-
-const Genre: (props: GenreProps) => DisplayObject = ({ startYear, endYear }) => {
-    const start = WIDTH_YEAR * startYear + WIDTH_BORDER / 2;
+const Genre: () => DisplayObject = () => {
+    const { genre } = store.getState();
+    const {
+        startKey,
+        category_timeline_items: timelineItems,
+        alt_image: path,
+        code,
+        short_name: name,
+        seo: { keyword },
+    } = genre;
+    const start = WIDTH_YEAR * startKey + WIDTH_BORDER / 2;
 
     // timeline on years
     const genreTimeline = new Container();
 
-    for (let position = startYear - 1; position < endYear; position++) {
+    // for (let position = startKey; position < endKey + 1; position++) {
+    timelineItems.forEach((timelineItem, index) => {
+        const { title, category_events: events } = timelineItem;
+
         // prepare timeline part
         const partTimelineContainer = new Container();
         const partTimelineInfoContainer = new Container();
 
         // wrapper
-        const partTimeline = PartTimeline({ start, position });
+        const position = startKey + index;
+        const partTimeline = PartTimeline({ position });
         partTimelineInfoContainer.addChild(partTimeline);
 
-        // description
-        if (DUMMY_TEXTS[position]) {
-            // render description
-            const partTimelineDescription = Description({ text: DUMMY_TEXTS[position], partTimeline });
+        // render description
+        if (title) {
+            const partTimelineDescription = Description({ text: title, partTimeline });
             partTimelineInfoContainer.addChild(partTimelineDescription);
+        }
 
-            // tip for description
-            const tipX = start + (position + 1) * WIDTH_YEAR;
-            const infoTip = InfoTip({ x: tipX, y: GENRE_TOP_PADDING });
+        // tip for description
+        const { advice } = timelineItem;
+        if (advice) {
+            const tipX = (position + 1) * WIDTH_YEAR;
+            const infoTip = InfoTip({ x: tipX, y: GENRE_TOP_PADDING, detail: { ...advice } });
             partTimelineInfoContainer.addChild(infoTip);
+        }
 
+        if (events.length > 0) {
             // events line
             const genreEventLine = GenreEventsLine({
                 x: partTimeline.x,
                 y: partTimeline.y + partTimeline.height,
+                events,
+                keyword,
             });
             partTimelineContainer.addChild(genreEventLine);
         }
 
         partTimelineContainer.addChild(partTimelineInfoContainer);
         genreTimeline.addChild(partTimelineContainer);
-    }
+    });
 
-    const genre = new Container();
+    const genreBody = new Container();
     const genrePolygon = GenreWrapper({ start }); // hexagon
-    genre.addChild(genrePolygon);
-    GenreIcon({ x: start, path: 'rpg.svg' }).then((genreIcon) => {
-        const genreTitle = GenreTitle({ title: DUMMY_TITLE, genreIcon });
+    genreBody.addChild(genrePolygon);
+
+    GenreIcon({ x: start, path }).then((genreIcon) => {
+        const genreTitle = GenreTitle({ title: name, genreIcon });
         alignmentIconAndTitle(genreIcon, genreTitle);
 
         // prepare info container
@@ -91,9 +100,7 @@ const Genre: (props: GenreProps) => DisplayObject = ({ startYear, endYear }) => 
                 return;
             }
             const openGenreEvent = new CustomEvent(MapEvent.GenreOpen, {
-                detail: {
-                    id: DUMMY_ID,
-                },
+                detail: { ...genre.seo, code },
             });
             document.dispatchEvent(openGenreEvent);
         });
@@ -102,13 +109,13 @@ const Genre: (props: GenreProps) => DisplayObject = ({ startYear, endYear }) => 
         });
 
         // timeline and info
-        genre.addChild(genreInfo);
+        genreBody.addChild(genreInfo);
     });
 
     // prepare genre container
     const genreContainer = new Container();
     genreContainer.addChild(genreTimeline);
-    genreContainer.addChild(genre);
+    genreContainer.addChild(genreBody);
 
     return genreContainer;
 };
