@@ -3,6 +3,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyPluginPlugin = require('copy-webpack-plugin');
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
+const Dotenv = require('dotenv-webpack');
 
 const rootPath = path.resolve(__dirname, 'src');
 const entryPath = path.resolve(rootPath, 'index.js');
@@ -61,6 +62,7 @@ module.exports = {
         ],
     },
     plugins: [
+        new Dotenv(),
         new HtmlWebpackPlugin({
             filename: 'index.html',
             template: 'public/index.html',

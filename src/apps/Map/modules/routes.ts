@@ -8,8 +8,6 @@ import store from 'src/models/store';
 import GenreDetail from 'map/pages/GenreDetail';
 import GenreList from 'map/pages/GenreList';
 
-const apiUrl = 'http://dev.gamespirit.org';
-
 interface RouteComponentResult {
     RouteComponent: () => Container;
     vertical: boolean;
@@ -25,7 +23,7 @@ export const getRouteComponent: () => RouteComponentResult = () => {
         return {
             RouteComponent: GenreDetail,
             vertical: false,
-            urls: [`${apiUrl}/api/v1/map/${path}/`],
+            urls: [`${process.env.API_ROOT}/api/v1/map/${path}/`],
             setData: ([page]) => {
                 const { category: genre, history } = page.data;
                 store.dispatch(setHistory(history));
@@ -36,7 +34,7 @@ export const getRouteComponent: () => RouteComponentResult = () => {
     return {
         RouteComponent: GenreList,
         vertical: true,
-        urls: [`${apiUrl}/api/v1/map/`],
+        urls: [`${process.env.API_ROOT}/api/v1/map/`],
         setData: ([page]) => {
             // set data to store
             const { categories: genres, history } = page.data;
