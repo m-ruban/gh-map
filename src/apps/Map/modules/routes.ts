@@ -15,6 +15,13 @@ interface RouteComponentResult {
     setData: (response: unknown) => void;
 }
 
+const apiRoot = () => {
+    if (process.env.NODE_ENV === 'development') {
+        return process.env.TEST_API_ROOT;
+    }
+    return process.env.API_ROOT;
+};
+
 // add route by event
 const GENRE_REGEX = /^\/([a-zA-Z0-9\-\_]*)\/$/;
 export const getRouteComponent: () => RouteComponentResult = () => {
@@ -23,7 +30,7 @@ export const getRouteComponent: () => RouteComponentResult = () => {
         return {
             RouteComponent: GenreDetail,
             vertical: false,
-            urls: [`${process.env.API_ROOT}/api/v1/map/${path}/`],
+            urls: [`${apiRoot()}/api/v1/map/${path}/`],
             setData: ([page]) => {
                 const { category: genre, history } = page.data;
                 store.dispatch(setHistory(history));
@@ -34,7 +41,7 @@ export const getRouteComponent: () => RouteComponentResult = () => {
     return {
         RouteComponent: GenreList,
         vertical: true,
-        urls: [`${process.env.API_ROOT}/api/v1/map/`],
+        urls: [`${apiRoot()}/api/v1/map/`],
         setData: ([page]) => {
             // set data to store
             const { categories: genres, history } = page.data;

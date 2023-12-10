@@ -25,12 +25,15 @@ module.exports = {
         static: {
             directory: path.join(__dirname, 'public'),
         },
+        proxy: {
+            '/api': {
+                target: 'https://gamespirit.org',
+                changeOrigin: true,
+            },
+        },
         port: 8000,
         historyApiFallback: true,
         allowedHosts: 'all',
-        headers: {
-            'Access-Control-Allow-Origin': '*',
-        },
     },
     resolve: {
         alias: {
