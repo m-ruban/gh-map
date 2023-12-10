@@ -29,7 +29,7 @@ module.exports = {
         historyApiFallback: true,
         allowedHosts: 'all',
         headers: {
-            'Access-Control-Allow-Origin': 'http://localhost:8000',
+            'Access-Control-Allow-Origin': '*',
         },
     },
     resolve: {

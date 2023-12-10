@@ -54,7 +54,7 @@ const Info: (props: InfoProps) => Container = ({ genreEventImage, title, type, a
             return;
         }
         const openArticleEvent = new CustomEvent(MapEvent.ArticleOpen, {
-            detail: { articleId },
+            detail: { articleId, title },
         });
         document.dispatchEvent(openArticleEvent);
     });
