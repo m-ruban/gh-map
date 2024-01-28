@@ -13,8 +13,8 @@ if (!mobile()) {
         width: window.innerWidth * RESOLUTION,
         height: window.innerHeight * RESOLUTION,
         resolution: 1,
-        antialias: true,
         useContextAlpha: false,
+        antialias: false,
         hello: true,
     });
     document.querySelector(APP_SELECTOR).appendChild(app.view);

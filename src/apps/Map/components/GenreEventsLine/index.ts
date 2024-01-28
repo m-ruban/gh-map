@@ -1,8 +1,6 @@
 import { Container, FederatedWheelEvent } from 'pixi.js';
 
 import { CategoryEvent } from 'src/models/genre';
-import { subscribeCustomEvent } from 'src/modules/events';
-import MapEvent from 'src/modules/MapEvent';
 
 import GenreEventView from 'map/components/GenreEvent';
 import { PADDING_WRAPPER } from 'map/components/GenreEvent/constants';
@@ -59,18 +57,9 @@ const GenreEventsLine: (props: GenreEventsLineProps) => Container = ({ x, y, eve
 
         // configure scroll limits
         const topScrollBorder = 0;
-        let bottomScrollBorder = (genreEventLineScrollableContainer.height - background.height) * -1;
-        let showAnyScrollTriangle = genreEventLineScrollableContainer.height > genreEventLineContainer.height;
+        const bottomScrollBorder = (genreEventLineScrollableContainer.height - background.height) * -1;
+        const showAnyScrollTriangle = genreEventLineScrollableContainer.height > genreEventLineContainer.height;
         bottomTriangle.visible = showAnyScrollTriangle;
-
-        // recalc border after resize
-        subscribeCustomEvent(MapEvent.Resolution, () => {
-            genreEventLineScrollableContainer.y = 0;
-            bottomScrollBorder = (genreEventLineScrollableContainer.height - background.height) * -1;
-            showAnyScrollTriangle = genreEventLineScrollableContainer.height > genreEventLineContainer.height;
-            bottomTriangle.visible = showAnyScrollTriangle;
-            topTriangle.visible = false;
-        });
 
         // scroll events
         genreEventLineContainer.interactive = true;

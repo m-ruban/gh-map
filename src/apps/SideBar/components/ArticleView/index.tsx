@@ -59,6 +59,7 @@ const ArticleView: FC = () => {
                 <iframe
                     ref={iframeRef}
                     className="article-view-iframe"
+                    loading="eager"
                     src={`https://gamespirit.org/article/${articleId}/`}
                 />
             </div>

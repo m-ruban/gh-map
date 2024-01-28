@@ -8,9 +8,10 @@ interface GenreIconProps {
 }
 
 const ICON_SIZE = 80;
+const OPTIONS = { scale: 10 };
 
 const GenreIcon: (props: GenreIconProps) => Promise<Sprite> = async ({ x, path }) => {
-    const genreTexture = await Texture.fromURL(getIconPath(path));
+    const genreTexture = await Texture.fromURL(getIconPath(path), { resourceOptions: OPTIONS });
     const genreIcon = new Sprite(genreTexture);
     genreIcon.x = x;
     genreIcon.height = ICON_SIZE;

@@ -31,7 +31,6 @@ const Timeline: () => Container = () => {
         yearsContainer.y = app.stage.y * -1 + app.view.height - HEIGHT_YEAR - WIDTH_BORDER / 2;
         yearLinesContainer.y = app.stage.y * -1;
     };
-    subscribeCustomEvent(MapEvent.Resolution, OnRenderOrUpdate);
     subscribeCustomEvent(MapEvent.MapResize, OnRenderOrUpdate);
     subscribeCustomEvent(MapEvent.CommonScroll, (event) => {
         const { vertical } = event.detail;

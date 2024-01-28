@@ -1,8 +1,5 @@
 import { Container, Graphics, IPointData } from 'pixi.js';
 
-import { subscribeCustomEvent } from 'src/modules/events';
-import MapEvent from 'src/modules/MapEvent';
-
 export enum Position {
     Top = 'top',
     Bottom = 'bottom',
@@ -42,13 +39,6 @@ const ScrollTriangle: (props: ScrollTriangleProps) => Container = ({ parent, pos
     scrollTriangle.drawPolygon(getTrianglePoints(position, parent.width));
     scrollTriangle.endFill();
     scrollTriangle.visible = false;
-
-    if (position === Position.Bottom) {
-        subscribeCustomEvent(MapEvent.Resolution, () => {
-            scrollTriangle.y = parent.y + parent.height + TRIANGLE_MARGIN;
-        });
-    }
-
     return scrollTriangle;
 };
 

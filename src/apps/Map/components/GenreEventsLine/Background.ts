@@ -1,8 +1,5 @@
 import { Container, Graphics } from 'pixi.js';
 
-import { subscribeCustomEvent } from 'src/modules/events';
-import MapEvent from 'src/modules/MapEvent';
-
 import app from 'map/modules/app';
 import { HEIGHT_YEAR, WIDTH_BORDER } from 'map/modules/constants';
 
@@ -26,21 +23,6 @@ const Background: (props: BackgroundProps) => Graphics = ({ parentContainer, scr
             { x: 0, y: height },
         ])
         .endFill();
-
-    subscribeCustomEvent(MapEvent.Resolution, () => {
-        const height = app.view.height - (HEIGHT_YEAR + WIDTH_BORDER) - parentContainer.y - PADDING_WRAPPER;
-        background
-            .clear()
-            .beginFill(0x1f2327)
-            .drawPolygon([
-                { x: 0, y: 0 },
-                { x: scrollableContainer.width, y: 0 },
-                { x: scrollableContainer.width, y: height },
-                { x: 0, y: height },
-            ])
-            .endFill();
-    });
-
     return background;
 };
 
