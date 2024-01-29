@@ -1,7 +1,7 @@
 import { Container, DisplayObject, FederatedPointerEvent } from 'pixi.js';
 
+import { toogleGenreView } from 'src/models/genre';
 import store from 'src/models/store';
-import MapEvent from 'src/modules/MapEvent';
 
 import { GENRE_TOP_PADDING, WIDTH_BORDER, WIDTH_YEAR } from 'map/modules/constants';
 import { isCanvasTarget } from 'map/modules/listeners';
@@ -20,7 +20,6 @@ const Genre: () => DisplayObject = () => {
         startKey,
         category_timeline_items: timelineItems,
         alt_image: path,
-        code,
         short_name: name,
         seo: { keyword },
     } = genre;
@@ -99,10 +98,7 @@ const Genre: () => DisplayObject = () => {
             if (!isCanvasTarget(event)) {
                 return;
             }
-            const openGenreEvent = new CustomEvent(MapEvent.GenreOpen, {
-                detail: { ...genre.seo, code },
-            });
-            document.dispatchEvent(openGenreEvent);
+            store.dispatch(toogleGenreView());
         });
         genreInfo.on('pointerleave', () => {
             genreInfo.alpha = 1;

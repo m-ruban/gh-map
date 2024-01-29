@@ -1,21 +1,8 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-import { GenreShortItem, Seo } from 'src/models/genres';
+import { GenreShortItem } from 'src/models/genres';
 import { Advice } from 'src/models/history';
 import GenreEventType from 'src/modules/GenreEventType';
-
-export interface Article {
-    id: number;
-    parent_id: number;
-    main_img: string;
-    created_at: string;
-    public: number;
-    approved: number;
-    views: number;
-    age_limit: number;
-    article_type_keyword: string;
-    seo: Seo;
-}
 
 export interface CategoryEvent {
     article_id?: number;
@@ -36,6 +23,7 @@ interface CategoryTimelineItems {
 
 interface Genre extends GenreShortItem {
     category_timeline_items: CategoryTimelineItems[];
+    isShowView?: boolean;
 }
 
 const initialState: Genre = null;
@@ -45,9 +33,12 @@ export const slice = createSlice({
     initialState,
     reducers: {
         setGenre: (_, { payload }: PayloadAction<Genre>) => payload,
+        toogleGenreView: (state) => {
+            state.isShowView = !state.isShowView;
+        },
     },
 });
 
-export const { setGenre } = slice.actions;
+export const { setGenre, toogleGenreView } = slice.actions;
 
 export default slice.reducer;
