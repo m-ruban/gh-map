@@ -5,6 +5,7 @@ import { Advice } from 'src/models/history';
 import GenreEventType from 'src/modules/GenreEventType';
 
 export interface CategoryEvent {
+    id: number;
     article_id?: number;
     description: string;
     image: string;

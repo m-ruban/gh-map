@@ -14,6 +14,11 @@ interface GenreEventsLineProps {
     keyword: string;
 }
 
+interface GenreEventResponse {
+    id: number;
+    genreEvent: Container;
+}
+
 const GenreEventsLine: (props: GenreEventsLineProps) => Container = ({ x, y, events, keyword }) => {
     // configure container
     const genreEventLineContainer = new Container();
@@ -24,22 +29,30 @@ const GenreEventsLine: (props: GenreEventsLineProps) => Container = ({ x, y, eve
     const genreEventLineScrollableContainer = new Container();
     genreEventLineScrollableContainer.x = 0;
     genreEventLineScrollableContainer.y = 0;
-    const eventViewRequests: Promise<void>[] = [];
 
-    let prevGenreEventHeight = 0;
-    events.forEach(({ image, title, type, article_id: articleId, link }) => {
+    const genreEventResponses: GenreEventResponse[] = [];
+    const eventViewRequests: Promise<void>[] = [];
+    events.forEach(({ id, image, title, type, article_id: articleId, link }) => {
         eventViewRequests.push(
             GenreEventView({ image, title, type, articleId, link, keyword }).then((genreEvent) => {
-                // render genre event
-                genreEvent.y = prevGenreEventHeight;
-                genreEventLineScrollableContainer.addChild(genreEvent);
-                // save height for next items
-                prevGenreEventHeight = genreEvent.height + genreEvent.y + PADDING_WRAPPER;
+                genreEventResponses.push({ id, genreEvent });
             })
         );
     });
 
     Promise.all(eventViewRequests).then(() => {
+        let prevGenreEventHeight = 0;
+        genreEventResponses
+            .sort((a, b) => a.id - b.id)
+            .forEach((genreEventResponse) => {
+                const { genreEvent } = genreEventResponse;
+                // render genre event
+                genreEventResponse.genreEvent.y = prevGenreEventHeight;
+                genreEventLineScrollableContainer.addChild(genreEvent);
+                // save height for next items
+                prevGenreEventHeight = genreEvent.height + genreEvent.y + PADDING_WRAPPER;
+            });
+
         // for not-jumping scrolling use mask
         const background = Background({
             parentContainer: genreEventLineContainer,
