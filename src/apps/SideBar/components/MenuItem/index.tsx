@@ -3,9 +3,15 @@ import { Merge } from 'type-fest';
 
 import './menu-item.less';
 
-const MenuItem: FC<Merge<JSX.IntrinsicElements['div'], PropsWithChildren>> = ({ children, ...props }) => {
+type HTMLDivWithChildren = Merge<JSX.IntrinsicElements['div'], PropsWithChildren>;
+
+interface MenuItemProps {
+    name: string;
+}
+
+const MenuItem: FC<HTMLDivWithChildren & MenuItemProps> = ({ children, name, ...props }) => {
     return (
-        <div className="menu-item" {...props}>
+        <div className={`menu-item menu-item_${name}`} {...props}>
             {children}
         </div>
     );

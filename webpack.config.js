@@ -69,7 +69,7 @@ module.exports = {
         new HtmlWebpackPlugin({
             filename: 'index.html',
             template: 'public/index.html',
-            favicon: 'public/favicon.ico',
+            favicon: 'public/firemap.svg',
             inject: true,
         }),
         new CopyPluginPlugin({
