@@ -53,7 +53,7 @@ const Help: FC = () => {
                         История разбита на года, каждый год обычно характеризуется каким-то контекстом, так как игровая
                         индустрия не существует в вакууме (например, кризис 2008 года или covid-2019).
                         <div>
-                            <img className="legend-example" src="/year.jpg" alt="год" />
+                            <img className="legend-example" src="/img/year.jpg" alt="год" />
                         </div>
                     </Paragraph>
                     <Paragraph>
@@ -62,7 +62,7 @@ const Help: FC = () => {
                         <Link href="https://gamespirit.org/">gamespirit.org</Link> и открывается на карте, а часть
                         ссылок ведет на иные сайты.
                         <div>
-                            <img className="legend-example" src="/genre.jpg" alt="жанр" />
+                            <img className="legend-example" src="/img/genre.jpg" alt="жанр" />
                         </div>
                     </Paragraph>
                     <Paragraph>

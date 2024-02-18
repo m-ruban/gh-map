@@ -76,6 +76,7 @@ module.exports = {
             patterns: [
                 { from: 'public/fonts', to: 'fonts' },
                 { from: 'public/icons', to: 'icons' },
+                { from: 'public/img', to: 'img' },
             ],
         }),
     ],
