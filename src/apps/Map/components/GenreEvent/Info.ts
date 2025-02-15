@@ -26,9 +26,10 @@ interface InfoProps {
     type: GenreEventType;
     articleId: number;
     link?: string;
+    description?: string;
 }
 
-const Info: (props: InfoProps) => Container = ({ genreEventImage, title, type, articleId, link }) => {
+const Info: (props: InfoProps) => Container = ({ genreEventImage, title, type, articleId, link, description }) => {
     // prepare text metrics
     const metrics = TextMetrics.measureText(title.toUpperCase(), titleStyle);
 
@@ -53,10 +54,17 @@ const Info: (props: InfoProps) => Container = ({ genreEventImage, title, type, a
             window.location.href = link;
             return;
         }
-        const openArticleEvent = new CustomEvent(MapEvent.ArticleOpen, {
-            detail: { articleId, title },
-        });
-        document.dispatchEvent(openArticleEvent);
+        if (articleId) {
+            const openArticleEvent = new CustomEvent(MapEvent.ArticleOpen, {
+                detail: { articleId, title },
+            });
+            document.dispatchEvent(openArticleEvent);
+            return;
+        }
+        if (description) {
+            const openTipEvent = new CustomEvent(MapEvent.TipOpen, { detail: { title, description } });
+            document.dispatchEvent(openTipEvent);
+        }
     });
     titleAndIconContainer.on('pointerenter', (event: FederatedPointerEvent) => {
         if (!isCanvasTarget(event)) {

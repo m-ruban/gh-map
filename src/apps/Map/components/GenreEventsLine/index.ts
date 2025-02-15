@@ -32,9 +32,9 @@ const GenreEventsLine: (props: GenreEventsLineProps) => Container = ({ x, y, eve
 
     const genreEventResponses: GenreEventResponse[] = [];
     const eventViewRequests: Promise<void>[] = [];
-    events.forEach(({ id, image, title, type, article_id: articleId, link }) => {
+    events.forEach(({ id, image, title, type, article_id: articleId, link, description }) => {
         eventViewRequests.push(
-            GenreEventView({ image, title, type, articleId, link, keyword }).then((genreEvent) => {
+            GenreEventView({ image, title, type, articleId, link, keyword, description }).then((genreEvent) => {
                 genreEventResponses.push({ id, genreEvent });
             })
         );
