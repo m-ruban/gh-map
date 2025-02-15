@@ -17,64 +17,71 @@ import InfoTip from 'map/components/InfoTip';
 const Genre: () => DisplayObject = () => {
     const { genre } = store.getState();
     const {
+        start,
         startKey,
-        category_timeline_items: timelineItems,
+        endKey,
+        category_timeline_items_by_years: timelineItems,
         alt_image: path,
         short_name: name,
         seo: { keyword },
     } = genre;
-    const start = WIDTH_YEAR * startKey + WIDTH_BORDER / 2;
+    const startPointX = WIDTH_YEAR * startKey + WIDTH_BORDER / 2;
 
     // timeline on years
     const genreTimeline = new Container();
 
-    // for (let position = startKey; position < endKey + 1; position++) {
-    timelineItems.forEach((timelineItem, index) => {
-        const { title, category_events: events } = timelineItem;
+    for (let position = startKey; position < endKey + 1; position++) {
+        // prepare timeline data
+        const currentYear = start + position - startKey;
+        const timelineItem = timelineItems[currentYear];
 
         // prepare timeline part
         const partTimelineContainer = new Container();
         const partTimelineInfoContainer = new Container();
 
         // wrapper
-        const position = startKey + index;
+        // const position = startKey + index;
         const partTimeline = PartTimeline({ position });
         partTimelineInfoContainer.addChild(partTimeline);
 
-        // render description
-        if (title) {
-            const partTimelineDescription = Description({ text: title, partTimeline });
-            partTimelineInfoContainer.addChild(partTimelineDescription);
-        }
+        if (timelineItem) {
+            const { title, category_events: events } = timelineItem;
 
-        // tip for description
-        const { advice } = timelineItem;
-        if (advice) {
-            const tipX = (position + 1) * WIDTH_YEAR;
-            const infoTip = InfoTip({ x: tipX, y: GENRE_TOP_PADDING, detail: { ...advice } });
-            partTimelineInfoContainer.addChild(infoTip);
-        }
+            // render description
+            if (title) {
+                const partTimelineDescription = Description({ text: title, partTimeline });
+                partTimelineInfoContainer.addChild(partTimelineDescription);
+            }
 
-        if (events.length > 0) {
-            // events line
-            const genreEventLine = GenreEventsLine({
-                x: partTimeline.x,
-                y: partTimeline.y + partTimeline.height,
-                events,
-                keyword,
-            });
-            partTimelineContainer.addChild(genreEventLine);
+            // tip for description
+            const { advice } = timelineItem;
+            if (advice) {
+                const tipX = (position + 1) * WIDTH_YEAR;
+                const infoTip = InfoTip({ x: tipX, y: GENRE_TOP_PADDING, detail: { ...advice } });
+                partTimelineInfoContainer.addChild(infoTip);
+            }
+
+            if (events.length > 0) {
+                // events line
+                const genreEventLine = GenreEventsLine({
+                    x: partTimeline.x,
+                    y: partTimeline.y + partTimeline.height,
+                    events,
+                    keyword,
+                });
+                partTimelineContainer.addChild(genreEventLine);
+            }
         }
 
         partTimelineContainer.addChild(partTimelineInfoContainer);
         genreTimeline.addChild(partTimelineContainer);
-    });
+    }
 
     const genreBody = new Container();
-    const genrePolygon = GenreWrapper({ start }); // hexagon
+    const genrePolygon = GenreWrapper({ startPointX }); // hexagon
     genreBody.addChild(genrePolygon);
 
-    GenreIcon({ x: start, path }).then((genreIcon) => {
+    GenreIcon({ x: startPointX, path }).then((genreIcon) => {
         const genreTitle = GenreTitle({ title: name, genreIcon });
         alignmentIconAndTitle(genreIcon, genreTitle);
 

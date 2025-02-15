@@ -23,7 +23,7 @@ interface CategoryTimelineItems {
 }
 
 interface Genre extends GenreShortItem {
-    category_timeline_items: CategoryTimelineItems[];
+    category_timeline_items_by_years: Record<string, CategoryTimelineItems>;
     isShowView?: boolean;
 }
 

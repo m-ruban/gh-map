@@ -6,13 +6,13 @@ const GENRE_MARGIN = (WIDTH_YEAR - GENRE_WIDTH) / 2;
 const GENRE_CORNER = 56;
 
 interface GenreWrapperProps {
-    start: number;
+    startPointX: number;
 }
 
-const GenreWrapper: (props: GenreWrapperProps) => Graphics = ({ start }) => {
+const GenreWrapper: (props: GenreWrapperProps) => Graphics = ({ startPointX }) => {
     // hexagon
     const genrePolygon = new Graphics();
-    genrePolygon.x = start + GENRE_MARGIN;
+    genrePolygon.x = startPointX + GENRE_MARGIN;
     genrePolygon.y = 0;
     genrePolygon.beginFill(0x404a53);
     genrePolygon.drawPolygon([
