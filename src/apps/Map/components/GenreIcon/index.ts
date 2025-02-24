@@ -7,7 +7,7 @@ interface GenreIconProps {
     path: string;
 }
 
-const ICON_SIZE = 80;
+const ICON_SIZE = 60;
 const OPTIONS = { scale: 10 };
 
 const GenreIcon: (props: GenreIconProps) => Promise<Sprite> = async ({ x, path }) => {

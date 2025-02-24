@@ -5,19 +5,23 @@ import mobile from 'src/modules/mobile';
 import { APP_SELECTOR, RESOLUTION } from 'map/modules/constants';
 
 let app: Application<HTMLCanvasElement>;
+export const originSize: { width: number; height: number } = { width: 0, height: 0 };
 
 if (!mobile()) {
     // app
+    const root = document.querySelector(APP_SELECTOR) as HTMLElement;
+    originSize.width = root.offsetWidth;
+    originSize.height = root.offsetHeight;
     app = new Application({
         background: '#1F2327',
-        width: window.innerWidth * RESOLUTION,
-        height: window.innerHeight * RESOLUTION,
+        width: root.offsetWidth * RESOLUTION,
+        height: root.offsetHeight * RESOLUTION,
         resolution: 1,
         useContextAlpha: false,
         antialias: false,
         hello: true,
     });
-    document.querySelector(APP_SELECTOR).appendChild(app.view);
+    root.appendChild(app.view);
 }
 
 export default app;

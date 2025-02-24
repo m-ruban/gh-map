@@ -9,11 +9,11 @@ const GENRE_INFO_WIDTH = GENRE_WIDTH - GENRE_INFO_MARGIN * 2 - GENRE_OFFSET * 2;
 
 const titleStyle = new TextStyle({
     fontFamily: FontFamily.Montserrat,
-    fontSize: 50,
+    fontSize: 40,
     fill: [0xffffff],
     wordWrapWidth: GENRE_INFO_WIDTH,
     wordWrap: true,
-    lineHeight: 45,
+    lineHeight: 40,
 });
 
 interface GenreTitleProps {

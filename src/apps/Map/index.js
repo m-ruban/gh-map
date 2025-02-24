@@ -1,3 +1,4 @@
+import MapEvent from 'src/modules/MapEvent';
 import mobile from 'src/modules/mobile';
 
 import app from 'map/modules/app';
@@ -20,6 +21,7 @@ fonts.then(async () => {
     const responses = await Promise.all(requests);
     // set data to store
     setData(responses);
+    document.dispatchEvent(new CustomEvent(MapEvent.MapLoaded));
     // render canvas app
     app.stage.addChild(RouteComponent());
     app.stage.addChild(Timeline());
@@ -27,4 +29,4 @@ fonts.then(async () => {
 });
 
 // pixi debug
-globalThis.__PIXI_APP__ = app;
+globalThis.__PIXI_APP__ = process.env.NODE_ENV === 'development' ? app : null;

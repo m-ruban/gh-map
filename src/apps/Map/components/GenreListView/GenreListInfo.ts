@@ -4,7 +4,7 @@ import { subscribeCustomEvent } from 'src/modules/events';
 import MapEvent from 'src/modules/MapEvent';
 
 import app from 'map/modules/app';
-import { SIDEBAR_WIDTH, WIDTH_YEAR } from 'map/modules/constants';
+import { WIDTH_YEAR } from 'map/modules/constants';
 import { isCanvasTarget } from 'map/modules/listeners';
 
 interface GenreListInfoProps {
@@ -54,8 +54,8 @@ const GenreListInfo: (props: GenreListInfoProps) => Container = ({
         if (event.detail.deltaX < 0) {
             // right move
             // need remember about sidebar
-            if (Math.abs(app.stage.x - SIDEBAR_WIDTH) > genreInfo.x) {
-                const newX = SIDEBAR_WIDTH - app.stage.x;
+            if (Math.abs(app.stage.x) > genreInfo.x) {
+                const newX = -1 * app.stage.x;
                 // right border
                 if (rightBorder < newX + genreInfo.width) {
                     return;
@@ -65,7 +65,7 @@ const GenreListInfo: (props: GenreListInfoProps) => Container = ({
             return;
         } else {
             // left move
-            const offset = genreInfo.x - Math.abs(app.stage.x - SIDEBAR_WIDTH);
+            const offset = genreInfo.x - Math.abs(app.stage.x);
             const newX = genreInfo.x - offset;
             // left border check
             if (leftBorder > newX) {

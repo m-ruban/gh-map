@@ -1,5 +1,6 @@
 import { FederatedPointerEvent, Sprite, Texture } from 'pixi.js';
 
+import { dispatchCustomEvent } from 'src/modules/events';
 import MapEvent from 'src/modules/MapEvent';
 
 import { isCanvasTarget } from 'map/modules/listeners';
@@ -9,7 +10,7 @@ import { ICON_SIZE, PADDING } from 'map/components/InfoTip/constants';
 interface InfoTipProps {
     x: number;
     y: number;
-    detail?: Record<string, unknown>;
+    detail?: Record<string, string | number>;
 }
 
 const InfoTip: (props: InfoTipProps) => Sprite = ({ x, y, detail }) => {
@@ -28,8 +29,7 @@ const InfoTip: (props: InfoTipProps) => Sprite = ({ x, y, detail }) => {
         if (!isCanvasTarget(event)) {
             return;
         }
-        const openTipEvent = new CustomEvent(MapEvent.TipOpen, { detail });
-        document.dispatchEvent(openTipEvent);
+        dispatchCustomEvent(MapEvent.ShowDetail, { detail });
         trigger.alpha = 0.6;
     });
     trigger.on('pointerleave', () => {

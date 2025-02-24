@@ -8,13 +8,13 @@ interface TitleProps {
     year: string;
 }
 
-const Title: (props: TitleProps) => Text = ({ x, y, year }) => {
-    const style = new TextStyle({
-        fontFamily: FontFamily.Montserrat,
-        fontSize: 64,
-        fill: [0xffffff],
-    });
+const style = new TextStyle({
+    fontFamily: FontFamily.Montserrat,
+    fontSize: 45,
+    fill: [0xffffff],
+});
 
+const Title: (props: TitleProps) => Text = ({ x, y, year }) => {
     const title = new Text(year, style);
     title.x = x;
     title.y = y;

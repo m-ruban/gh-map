@@ -1,10 +1,12 @@
 import { FederatedEvent, IPointData } from 'pixi.js';
 
 import debounce from 'src/modules/debounce';
+import Direction from 'src/modules/Direction';
 import { dispatchCustomEvent } from 'src/modules/events';
+import { subscribeCustomEvent } from 'src/modules/events';
 import MapEvent from 'src/modules/MapEvent';
 
-import app from 'map/modules/app';
+import app, { originSize } from 'map/modules/app';
 import { APP_SELECTOR, RESOLUTION } from 'map/modules/constants';
 
 export const isCanvasTarget = (event: FederatedEvent): boolean => {
@@ -77,8 +79,31 @@ const listeners: (vertical: boolean) => void = (vertical: boolean) => {
     }, 200);
     window.addEventListener('resize', onResize);
 
+    // scroll map by external event
+    const moveByArrow = (event: { detail: { direction: Direction } }) => {
+        const distance = event.detail.direction === Direction.Left ? app.view.width : app.view.width * -1;
+        let positionX = app.stage.x + distance;
+        if (positionX > LEFT_SCROLL_BORDER) {
+            positionX = LEFT_SCROLL_BORDER;
+        }
+        if (positionX < RIGHT_SCROLL_BORDER) {
+            positionX = RIGHT_SCROLL_BORDER;
+        }
+        app.stage.x = positionX;
+        const eventData = {
+            detail: {
+                vertical: false,
+                deltaX: distance,
+                deltaY: 0,
+            },
+        };
+        dispatchCustomEvent(MapEvent.CommonScroll, eventData);
+    };
+    subscribeCustomEvent(MapEvent.MoveMapByArrow, moveByArrow);
+
     // disable scroll events on canvas
-    document.querySelector(APP_SELECTOR).addEventListener(
+    const root = document.querySelector(APP_SELECTOR) as HTMLElement;
+    root.addEventListener(
         'wheel',
         (e) => {
             e.preventDefault();
@@ -88,17 +113,21 @@ const listeners: (vertical: boolean) => void = (vertical: boolean) => {
         { passive: false }
     );
 
-    // some container fix
-    app.view.style.width = `${window.innerWidth}px`;
-    app.view.style.height = `${window.innerHeight}px`;
+    // рисуем канвас размером size * RESOLUTION, в прямоугольнире размером size
+    app.view.style.width = `${originSize.width}px`;
+    app.view.style.height = `${originSize.height}px`;
+    app.view.style.display = 'block';
 
-    // resize
+    // на ресайзе надо пересчитать размеры и заэмить событие по карте
     window.addEventListener(
         'resize',
         debounce(() => {
-            app.renderer.resize(window.innerWidth * RESOLUTION, window.innerHeight * RESOLUTION);
-            app.view.style.width = `${window.innerWidth}px`;
-            app.view.style.height = `${window.innerHeight}px`;
+            const root = document.querySelector(APP_SELECTOR) as HTMLElement;
+            originSize.width = root.offsetWidth;
+            originSize.height = root.offsetHeight;
+            app.renderer.resize(originSize.width * RESOLUTION, originSize.height * RESOLUTION);
+            app.view.style.width = `${originSize.width}px`;
+            app.view.style.height = `${originSize.height}px`;
             dispatchCustomEvent(MapEvent.MapResize);
         }, 100)
     );
