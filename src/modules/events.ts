@@ -1,7 +1,9 @@
+import { ReactNode } from 'react';
+
 import MapEvent from 'src/modules/MapEvent';
 
 type EventData = {
-    detail: Record<string, string | boolean | number>;
+    detail: Record<string, string | boolean | number | ReactNode>;
 };
 
 export const dispatchCustomEvent: (eventName: MapEvent, eventData?: EventData) => void = (eventName, eventData) => {
