@@ -13,7 +13,7 @@
         "paths": {
             "src/*": ["./src/*"],
             "map/*": ["./src/apps/Map/*"],
-            "side-bar/*": ["./src/apps/SideBar/*"]
+            "side-bars/*": ["./src/apps/SideBars/*"]
         }
     }
 }

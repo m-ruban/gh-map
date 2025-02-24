@@ -39,7 +39,7 @@ module.exports = {
         alias: {
             src: path.resolve(__dirname, 'src/'),
             map: path.resolve(__dirname, 'src/apps/Map'),
-            ['side-bar']: path.resolve(__dirname, 'src/apps/SideBar'),
+            ['side-bars']: path.resolve(__dirname, 'src/apps/SideBars'),
         },
         extensions: ['.js', '.jsx', '.json', '.svg', '.gif', '.jpg', '.less', '.ts', '.tsx'],
     },
