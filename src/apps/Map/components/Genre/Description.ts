@@ -7,7 +7,7 @@ const DESCRIPTION_PADDING = 15;
 
 const descriptionStyle = new TextStyle({
     fontFamily: FontFamily.Montserrat,
-    fontSize: 32,
+    fontSize: 26,
     fill: [0xffffff],
     wordWrapWidth: WIDTH_YEAR - DESCRIPTION_PADDING * 2,
     wordWrap: true,

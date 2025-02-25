@@ -8,7 +8,6 @@ let app: Application<HTMLCanvasElement>;
 export const originSize: { width: number; height: number } = { width: 0, height: 0 };
 
 if (!mobile()) {
-    // app
     const root = document.querySelector(APP_SELECTOR) as HTMLElement;
     originSize.width = root.offsetWidth;
     originSize.height = root.offsetHeight;
@@ -17,7 +16,7 @@ if (!mobile()) {
         width: root.offsetWidth * RESOLUTION,
         height: root.offsetHeight * RESOLUTION,
         resolution: 1,
-        useContextAlpha: false,
+        useContextAlpha: true,
         antialias: false,
         hello: true,
     });

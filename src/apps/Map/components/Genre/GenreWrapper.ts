@@ -1,6 +1,6 @@
 import { Graphics } from 'pixi.js';
 
-import { GENRE_HEIGHT, GENRE_OFFSET, GENRE_WIDTH, WIDTH_YEAR } from 'map/modules/constants';
+import { GENRE_HEIGHT_POLYGON, GENRE_OFFSET, GENRE_WIDTH, WIDTH_YEAR } from 'map/modules/constants';
 
 const GENRE_MARGIN = (WIDTH_YEAR - GENRE_WIDTH) / 2;
 const GENRE_CORNER = 56;
@@ -19,9 +19,9 @@ const GenreWrapper: (props: GenreWrapperProps) => Graphics = ({ startPointX }) =
         { x: GENRE_OFFSET, y: GENRE_CORNER + GENRE_OFFSET },
         { x: GENRE_WIDTH / 2, y: 0 },
         { x: GENRE_WIDTH - GENRE_OFFSET, y: GENRE_CORNER + GENRE_OFFSET },
-        { x: GENRE_WIDTH - GENRE_OFFSET, y: GENRE_HEIGHT + GENRE_CORNER - GENRE_OFFSET },
-        { x: GENRE_WIDTH / 2, y: GENRE_HEIGHT + GENRE_CORNER * 2 },
-        { x: GENRE_OFFSET, y: GENRE_HEIGHT + GENRE_CORNER - GENRE_OFFSET },
+        { x: GENRE_WIDTH - GENRE_OFFSET, y: GENRE_HEIGHT_POLYGON + GENRE_CORNER - GENRE_OFFSET },
+        { x: GENRE_WIDTH / 2, y: GENRE_HEIGHT_POLYGON + GENRE_CORNER * 2 },
+        { x: GENRE_OFFSET, y: GENRE_HEIGHT_POLYGON + GENRE_CORNER - GENRE_OFFSET },
     ]);
     genrePolygon.endFill();
     return genrePolygon;

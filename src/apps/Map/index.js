@@ -1,3 +1,4 @@
+import { dispatchCustomEvent } from 'src/modules/events';
 import MapEvent from 'src/modules/MapEvent';
 import mobile from 'src/modules/mobile';
 
@@ -21,7 +22,7 @@ fonts.then(async () => {
     const responses = await Promise.all(requests);
     // set data to store
     setData(responses);
-    document.dispatchEvent(new CustomEvent(MapEvent.MapLoaded));
+    dispatchCustomEvent(MapEvent.MapLoaded);
     // render canvas app
     app.stage.addChild(RouteComponent());
     app.stage.addChild(Timeline());

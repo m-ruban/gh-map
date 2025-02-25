@@ -1,5 +1,6 @@
 import { Container, FederatedPointerEvent, Sprite, TextMetrics, TextStyle } from 'pixi.js';
 
+import { dispatchCustomEvent } from 'src/modules/events';
 import GenreEventType from 'src/modules/GenreEventType';
 import MapEvent from 'src/modules/MapEvent';
 
@@ -13,11 +14,11 @@ import TitleWrapper from 'map/components/GenreEvent/TitleWrapper';
 
 const titleStyle = new TextStyle({
     fontFamily: FontFamily.Montserrat,
-    fontSize: 28,
+    fontSize: 22,
     fill: 0xdedede,
     wordWrapWidth: MAX_TEXT_WIDTH,
     wordWrap: true,
-    lineHeight: 40,
+    lineHeight: 30,
 });
 
 interface InfoProps {
@@ -50,20 +51,19 @@ const Info: (props: InfoProps) => Container = ({ genreEventImage, title, type, a
         if (!isCanvasTarget(event)) {
             return;
         }
+        // redirect
         if (link) {
-            window.location.href = link;
+            window.open(link, '_blank');
             return;
         }
+        // open article in iframe
         if (articleId) {
-            const openArticleEvent = new CustomEvent(MapEvent.ArticleOpen, {
-                detail: { articleId, title },
-            });
-            document.dispatchEvent(openArticleEvent);
+            dispatchCustomEvent(MapEvent.ShowDetail, { detail: { title, articleId } });
             return;
         }
+        // short info
         if (description) {
-            const openTipEvent = new CustomEvent(MapEvent.TipOpen, { detail: { title, description } });
-            document.dispatchEvent(openTipEvent);
+            dispatchCustomEvent(MapEvent.ShowDetail, { detail: { title, description } });
         }
     });
     titleAndIconContainer.on('pointerenter', (event: FederatedPointerEvent) => {

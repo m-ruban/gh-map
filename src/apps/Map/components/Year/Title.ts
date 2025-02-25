@@ -10,7 +10,7 @@ interface TitleProps {
 
 const style = new TextStyle({
     fontFamily: FontFamily.Montserrat,
-    fontSize: 45,
+    fontSize: 40,
     fill: [0xffffff],
 });
 

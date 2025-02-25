@@ -1,7 +1,8 @@
 import { Container, DisplayObject, FederatedPointerEvent } from 'pixi.js';
 
-import { toogleGenreView } from 'src/models/genre';
 import store from 'src/models/store';
+import { dispatchCustomEvent } from 'src/modules/events';
+import MapEvent from 'src/modules/MapEvent';
 
 import { GENRE_TOP_PADDING, WIDTH_BORDER, WIDTH_YEAR } from 'map/modules/constants';
 import { isCanvasTarget } from 'map/modules/listeners';
@@ -40,7 +41,6 @@ const Genre: () => DisplayObject = () => {
         const partTimelineInfoContainer = new Container();
 
         // wrapper
-        // const position = startKey + index;
         const partTimeline = PartTimeline({ position });
         partTimelineInfoContainer.addChild(partTimeline);
 
@@ -105,7 +105,14 @@ const Genre: () => DisplayObject = () => {
             if (!isCanvasTarget(event)) {
                 return;
             }
-            store.dispatch(toogleGenreView());
+            const { genre } = store.getState();
+            const detail = {
+                description: genre.seo.descr,
+                title: genre.short_name,
+                link: `https://gamespirit.org/categories${genre.code}`,
+                anchor: 'Далее',
+            };
+            dispatchCustomEvent(MapEvent.ShowDetail, { detail });
         });
         genreInfo.on('pointerleave', () => {
             genreInfo.alpha = 1;
