@@ -1,5 +1,7 @@
 import React, { ReactElement, useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 
+import { RootStore } from 'src/models/reducers';
 import Direction from 'src/modules/Direction';
 import { dispatchCustomEvent } from 'src/modules/events';
 import MapEvent from 'src/modules/MapEvent';
@@ -26,6 +28,7 @@ const RightArrowIcon = () => {
 };
 
 const MapContainer = (): ReactElement => {
+    const genreTitle = useSelector((state: RootStore) => state.genre?.short_name);
     const [loading, setLoading] = useState(true);
     useEffect(() => {
         const handleLoadedMap = () => {
@@ -38,7 +41,7 @@ const MapContainer = (): ReactElement => {
 
     return (
         <Frame
-            title="Game History Map"
+            title={loading ? 'Loading...' : genreTitle || 'Game History Map'}
             secondaryAction={
                 <button
                     className="map-button"
