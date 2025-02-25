@@ -12,9 +12,10 @@ interface ArticleViewState {
     title: string;
     link: string;
     anchor: ReactNode;
+    articleId: number;
 }
 
-const EMPTY_STATE: ArticleViewState = { title: '', description: '', link: '', anchor: '' };
+const EMPTY_STATE: ArticleViewState = { title: '', description: '', link: '', anchor: '', articleId: 0 };
 
 const CloseIcon = () => {
     return (
@@ -48,7 +49,7 @@ const ArticleView = (): ReactElement => {
         };
     }, []);
 
-    const { description: _description, anchor, title, link } = articleView;
+    const { description: _description, anchor, title, link, articleId } = articleView;
     const description = isString(_description) ? <Paragraph>{_description}</Paragraph> : _description;
 
     return (
@@ -65,10 +66,18 @@ const ArticleView = (): ReactElement => {
                     )
                 }
             >
-                {showDefaultContent && (
-                    <Paragraph>И тут появиться информация по теме или перейдите на страницу жанра...</Paragraph>
+                {showDefaultContent && <Paragraph>И тут появиться информация по теме...</Paragraph>}
+                {!showDefaultContent && (
+                    <>
+                        {!articleId && <div className="article-view-content">{description}</div>}
+                        {articleId && (
+                            <iframe
+                                className="article-view-iframe"
+                                src={`https://gamespirit.org/article/${articleId}/`}
+                            />
+                        )}
+                    </>
                 )}
-                {!showDefaultContent && <div className="article-view-content">{description}</div>}
             </Frame>
         </div>
     );
