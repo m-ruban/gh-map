@@ -4,6 +4,7 @@ import store from 'src/models/store';
 import { dispatchCustomEvent } from 'src/modules/events';
 import MapEvent from 'src/modules/MapEvent';
 
+import app from 'map/modules/app';
 import { GENRE_TOP_PADDING, WIDTH_BORDER, WIDTH_YEAR } from 'map/modules/constants';
 import { isCanvasTarget } from 'map/modules/listeners';
 
@@ -30,6 +31,7 @@ const Genre: () => DisplayObject = () => {
 
     // timeline on years
     const genreTimeline = new Container();
+    const genreEventLines: Container[] = [];
 
     for (let position = startKey; position < endKey + 1; position++) {
         // prepare timeline data
@@ -70,6 +72,7 @@ const Genre: () => DisplayObject = () => {
                     keyword,
                 });
                 partTimelineContainer.addChild(genreEventLine);
+                genreEventLines.push(genreEventLine);
             }
         }
 
@@ -126,6 +129,16 @@ const Genre: () => DisplayObject = () => {
     const genreContainer = new Container();
     genreContainer.addChild(genreTimeline);
     genreContainer.addChild(genreBody);
+
+    // culling
+    app.ticker.add(() => {
+        const rightBorder = app.screen.width + Math.abs(app.stage.x);
+        const leftBorder = Math.abs(app.stage.x);
+        for (const genreEventLine of genreEventLines) {
+            genreEventLine.visible =
+                genreEventLine.x + genreEventLine.width > leftBorder && genreEventLine.x < rightBorder;
+        }
+    });
 
     return genreContainer;
 };
