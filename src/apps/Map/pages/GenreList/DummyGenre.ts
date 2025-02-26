@@ -13,6 +13,7 @@ const DummyGenre: (props: { length: number }) => Container = ({ length }) => {
     dummyGenre.endFill();
 
     dummyGenreContainer.addChild(dummyGenre);
+    dummyGenreContainer.cacheAsBitmap = true;
 
     return dummyGenreContainer;
 };

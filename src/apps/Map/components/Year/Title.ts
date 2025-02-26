@@ -19,6 +19,7 @@ const Title: (props: TitleProps) => Text = ({ x, y, year }) => {
     title.x = x;
     title.y = y;
     title.anchor.set(0.5);
+    title.cacheAsBitmap = true;
     return title;
 };
 

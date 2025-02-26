@@ -16,7 +16,7 @@ const YearLine: (props: YearProps) => Graphics = ({ position }) => {
         .lineStyle(LINE_STYLE)
         .moveTo(x, 0)
         .lineTo(x, app.view.height - HEIGHT_YEAR);
-
+    yearLine.cacheAsBitmap = true;
     return yearLine;
 };
 

@@ -1,7 +1,7 @@
 export const RESOLUTION = 2;
 
 // size for primitives
-export const HEIGHT_YEAR = 130;
+export const HEIGHT_YEAR = 120;
 export const WIDTH_YEAR = 340;
 export const WIDTH_BORDER = 5;
 export const YEAR_CORNER = 45;

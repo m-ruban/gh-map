@@ -13,6 +13,7 @@ const PartTimeline: (props: PartTimelineProps) => Graphics = ({ position }) => {
     partTimeline.beginFill(0x2f3539);
     partTimeline.drawRect(0, 0, WIDTH_YEAR, GENRE_HEIGHT);
     partTimeline.endFill();
+    partTimeline.cacheAsBitmap = true;
     return partTimeline;
 };
 

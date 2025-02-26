@@ -53,7 +53,6 @@ const GenreListInfo: (props: GenreListInfoProps) => Container = ({
     subscribeCustomEvent(MapEvent.CommonScroll, (event) => {
         if (event.detail.deltaX < 0) {
             // right move
-            // need remember about sidebar
             if (Math.abs(app.stage.x) > genreInfo.x) {
                 const newX = -1 * app.stage.x;
                 // right border

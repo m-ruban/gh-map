@@ -24,6 +24,7 @@ const GenreWrapper: (props: GenreWrapperProps) => Graphics = ({ startPointX }) =
         { x: GENRE_OFFSET, y: GENRE_HEIGHT_POLYGON + GENRE_CORNER - GENRE_OFFSET },
     ]);
     genrePolygon.endFill();
+    genrePolygon.cacheAsBitmap = true;
     return genrePolygon;
 };
 

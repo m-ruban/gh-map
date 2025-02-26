@@ -22,7 +22,7 @@ const Wrapper: (props: WrapperProps) => Graphics = ({ x }) => {
         { x: YEAR_CORNER, y: HEIGHT_YEAR / 2 },
     ]);
     wrapper.endFill();
-
+    wrapper.cacheAsBitmap = true;
     return wrapper;
 };
 

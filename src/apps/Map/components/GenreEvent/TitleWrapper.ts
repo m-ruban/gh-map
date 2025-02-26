@@ -14,6 +14,7 @@ const TitleWrapper: (props: TitleWrapperProps) => Graphics = ({ genreEventImage,
     titleWrapper.beginFill(0x2f3539);
     titleWrapper.drawRect(0, 0, genreEventImage.width, metrics.height + PADDING_INFO * 2);
     titleWrapper.endFill();
+    titleWrapper.cacheAsBitmap = true;
     return titleWrapper;
 };
 

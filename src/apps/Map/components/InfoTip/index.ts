@@ -32,6 +32,12 @@ const InfoTip: (props: InfoTipProps) => Sprite = ({ x, y, detail }) => {
         dispatchCustomEvent(MapEvent.ShowDetail, { detail });
         trigger.alpha = 0.6;
     });
+    trigger.on('pointerenter', (event: FederatedPointerEvent) => {
+        if (!isCanvasTarget(event)) {
+            return;
+        }
+        trigger.alpha = 0.6;
+    });
     trigger.on('pointerleave', () => {
         trigger.alpha = 1;
     });

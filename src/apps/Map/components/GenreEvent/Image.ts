@@ -11,6 +11,7 @@ const Image: (props: { image: string }) => Promise<Sprite> = async ({ image }) =
     genreImage.y = 0;
     genreImage.width = WIDTH_YEAR - PADDING_WRAPPER * 2;
     genreImage.height = GENRE_IMAGE_HEIGHT;
+    genreImage.cacheAsBitmap = true;
     return genreImage;
 };
 

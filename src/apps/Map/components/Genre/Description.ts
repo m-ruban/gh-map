@@ -23,6 +23,7 @@ const Description: (props: DescriptionProps) => Text = ({ text, partTimeline }) 
     const partTimelineDescription = new Text(text, descriptionStyle);
     partTimelineDescription.x = partTimeline.x + (WIDTH_YEAR - partTimelineDescription.width) / 2;
     partTimelineDescription.y = (GENRE_HEIGHT - partTimelineDescription.height) / 2 + GENRE_TOP_PADDING;
+    partTimelineDescription.cacheAsBitmap = true;
     return partTimelineDescription;
 };
 
