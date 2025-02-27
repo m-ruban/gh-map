@@ -44,7 +44,7 @@ const MapContainer = (): ReactElement => {
             title={loading ? 'Loading...' : genreTitle || 'Game History Map'}
             secondaryAction={
                 <button
-                    className="map-button"
+                    className="map-button map-button_left"
                     type="button"
                     onClick={() => {
                         const event = { detail: { direction: Direction.Left } };
@@ -56,7 +56,7 @@ const MapContainer = (): ReactElement => {
             }
             primaryAction={
                 <button
-                    className="map-button"
+                    className="map-button map-button_right"
                     type="button"
                     onClick={() => {
                         const event = { detail: { direction: Direction.Right } };
