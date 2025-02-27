@@ -24,7 +24,6 @@ const GenreListView: (props: Props) => Container = ({ genre, position }) => {
 
     // prepare genre content
     const genreWrapper = GenreListWrapper({ start, end, position });
-    genreWrapper.cacheAsBitmap = true;
 
     // load icon fron server
     GenreIcon({ x: 0, path: icon }).then((genreIcon) => {

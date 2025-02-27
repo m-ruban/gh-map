@@ -4,8 +4,8 @@ import store from 'src/models/store';
 import { dispatchCustomEvent } from 'src/modules/events';
 import MapEvent from 'src/modules/MapEvent';
 
-import app from 'map/modules/app';
 import { GENRE_TOP_PADDING, WIDTH_BORDER, WIDTH_YEAR } from 'map/modules/constants';
+import { culling } from 'map/modules/culling';
 import { isCanvasTarget } from 'map/modules/listeners';
 
 import Description from 'map/components/Genre/Description';
@@ -32,6 +32,7 @@ const Genre: () => DisplayObject = () => {
     // timeline on years
     const genreTimeline = new Container();
     const genreEventLines: Container[] = [];
+    const partTimelines: Container[] = [];
 
     for (let position = startKey; position < endKey + 1; position++) {
         // prepare timeline data
@@ -44,6 +45,7 @@ const Genre: () => DisplayObject = () => {
 
         // wrapper
         const partTimeline = PartTimeline({ position });
+        partTimelines.push(partTimeline);
         partTimelineInfoContainer.addChild(partTimeline);
 
         if (timelineItem) {
@@ -63,6 +65,7 @@ const Genre: () => DisplayObject = () => {
                 partTimelineInfoContainer.addChild(infoTip);
             }
 
+            // event list
             if (events.length > 0) {
                 // events line
                 const genreEventLine = GenreEventsLine({
@@ -131,14 +134,7 @@ const Genre: () => DisplayObject = () => {
     genreContainer.addChild(genreBody);
 
     // culling
-    app.ticker.add(() => {
-        const rightBorder = app.screen.width + Math.abs(app.stage.x);
-        const leftBorder = Math.abs(app.stage.x);
-        for (const genreEventLine of genreEventLines) {
-            genreEventLine.visible =
-                genreEventLine.x + genreEventLine.width > leftBorder && genreEventLine.x < rightBorder;
-        }
-    });
+    culling([...genreEventLines, ...partTimelines]);
 
     return genreContainer;
 };

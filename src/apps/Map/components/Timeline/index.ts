@@ -6,7 +6,7 @@ import { subscribeCustomEvent } from 'src/modules/events';
 import MapEvent from 'src/modules/MapEvent';
 
 import app from 'map/modules/app';
-import { HEIGHT_YEAR, WIDTH_BORDER } from 'map/modules/constants';
+import { HEIGHT_YEAR, TIMELINE_OFFSET, WIDTH_BORDER } from 'map/modules/constants';
 
 import Year from 'map/components/Year';
 import YearLine from 'map/components/YearLine';
@@ -28,7 +28,7 @@ const Timeline: () => Container = () => {
 
     // callbacks
     const OnRenderOrUpdate = () => {
-        yearsContainer.y = app.stage.y * -1 + app.view.height - HEIGHT_YEAR - WIDTH_BORDER / 2;
+        yearsContainer.y = app.stage.y * -1 + app.view.height + TIMELINE_OFFSET - HEIGHT_YEAR - WIDTH_BORDER / 2;
         yearLinesContainer.y = app.stage.y * -1;
     };
     subscribeCustomEvent(MapEvent.MapResize, OnRenderOrUpdate);

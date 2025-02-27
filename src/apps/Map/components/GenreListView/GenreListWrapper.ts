@@ -15,6 +15,7 @@ const GenreListWrapper: (props: GenreListWrapperProps) => Graphics = ({ start, e
     genreListItemWrapper.beginFill(0x2f3539);
     genreListItemWrapper.drawRect(0, 0, WIDTH_YEAR * (end - start + 1) + WIDTH_TIMELINE, GENRE_HEIGHT);
     genreListItemWrapper.endFill();
+    genreListItemWrapper.cacheAsBitmap = true;
     return genreListItemWrapper;
 };
 

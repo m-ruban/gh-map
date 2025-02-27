@@ -13,5 +13,7 @@ export const GENRE_HEIGHT_POLYGON = 140;
 export const GENRE_WIDTH = 250;
 export const GENRE_OFFSET = 10;
 
+export const TIMELINE_OFFSET = 5;
+
 // dom selectors and metrics
 export const APP_SELECTOR = '#map';
