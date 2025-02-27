@@ -7,12 +7,14 @@ import { subscribeCustomEvent } from 'src/modules/events';
 import MapEvent from 'src/modules/MapEvent';
 
 import app, { originSize } from 'map/modules/app';
-import { APP_SELECTOR, RESOLUTION } from 'map/modules/constants';
+import { APP_SELECTOR, RESOLUTION, TIMELINE_OFFSET } from 'map/modules/constants';
 
 export const isCanvasTarget = (event: FederatedEvent): boolean => {
     const target = event.nativeEvent.target as HTMLElement;
     return target.tagName === 'CANVAS';
 };
+
+const SPEED = 1.2;
 
 const listeners: (vertical: boolean) => void = (vertical: boolean) => {
     // should fire event
@@ -22,13 +24,13 @@ const listeners: (vertical: boolean) => void = (vertical: boolean) => {
     const LEFT_SCROLL_BORDER = 0;
     const TOP_SCROLL_BORDER = 0;
     let RIGHT_SCROLL_BORDER: number = (app.stage.width - app.view.width) * -1;
-    let BOTTOM_SCROLL_BORDER: number = (app.stage.height - app.view.height) * -1;
+    let BOTTOM_SCROLL_BORDER: number = (app.stage.height - app.view.height - TIMELINE_OFFSET) * -1;
     let prevPoint: IPointData | undefined;
 
     // callbacks
     const onMove = (event: PointerEvent) => {
         if (prevPoint) {
-            let positionX = app.stage.x + event.x - prevPoint.x;
+            let positionX = app.stage.x + event.x * SPEED - prevPoint.x;
             if (positionX > LEFT_SCROLL_BORDER) {
                 positionX = LEFT_SCROLL_BORDER;
             }
@@ -49,13 +51,13 @@ const listeners: (vertical: boolean) => void = (vertical: boolean) => {
             const eventData = {
                 detail: {
                     vertical,
-                    deltaX: event.x - prevPoint.x,
+                    deltaX: event.x * SPEED - prevPoint.x,
                     deltaY: event.y - prevPoint.y,
                 },
             };
             dispatchCustomEvent(MapEvent.CommonScroll, eventData);
         }
-        prevPoint = { x: event.x, y: event.y };
+        prevPoint = { x: event.x * SPEED, y: event.y };
         app.view.style.cursor = vertical ? 'move' : 'ew-resize';
     };
 
