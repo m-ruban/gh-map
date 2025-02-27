@@ -25,12 +25,19 @@ const InfoTip: (props: InfoTipProps) => Sprite = ({ x, y, detail }) => {
     // render sheet by click
     trigger.interactive = true;
     trigger.cursor = 'pointer';
-    trigger.on('click', (event: FederatedPointerEvent) => {
+    trigger.on('pointerdown', (event: FederatedPointerEvent) => {
         if (!isCanvasTarget(event)) {
             return;
         }
         dispatchCustomEvent(MapEvent.ShowDetail, { detail });
         trigger.alpha = 0.6;
+        trigger.scale = { x: 0.57, y: 0.57 };
+    });
+    trigger.on('pointerup', (event: FederatedPointerEvent) => {
+        if (!isCanvasTarget(event)) {
+            return;
+        }
+        trigger.scale = { x: 0.6, y: 0.6 };
     });
     trigger.on('pointerenter', (event: FederatedPointerEvent) => {
         if (!isCanvasTarget(event)) {
