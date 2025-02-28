@@ -30,7 +30,6 @@ const InfoTip: (props: InfoTipProps) => Sprite = ({ x, y, detail }) => {
             return;
         }
         dispatchCustomEvent(MapEvent.ShowDetail, { detail });
-        trigger.alpha = 0.6;
         trigger.scale = { x: 0.57, y: 0.57 };
     });
     trigger.on('pointerup', (event: FederatedPointerEvent) => {

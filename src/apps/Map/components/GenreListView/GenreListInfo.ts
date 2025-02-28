@@ -1,54 +1,40 @@
-import { Container, FederatedPointerEvent, Graphics, Sprite, Text } from 'pixi.js';
+import { Container, FederatedPointerEvent, Sprite, Text } from 'pixi.js';
 
 import { subscribeCustomEvent } from 'src/modules/events';
 import MapEvent from 'src/modules/MapEvent';
 
 import app from 'map/modules/app';
-import { WIDTH_YEAR } from 'map/modules/constants';
+import { GENRE_HEIGHT, GENRE_TOP_PADDING, WIDTH_YEAR } from 'map/modules/constants';
 import { isCanvasTarget } from 'map/modules/listeners';
 
 interface GenreListInfoProps {
-    genreWrapper: Graphics;
     genreIcon: Sprite;
     genreTitle: Text;
     start: number;
+    end: number;
     code: string;
+    positionY: number;
 }
 
 const GenreListInfo: (props: GenreListInfoProps) => Container = ({
-    genreWrapper,
     genreIcon,
     genreTitle,
     start,
+    end,
     code,
+    positionY,
 }) => {
+    const topPaddingBefore = positionY * (GENRE_HEIGHT + GENRE_TOP_PADDING);
+    const leftPaddingBefore = start * WIDTH_YEAR;
     const genreInfo = new Container();
     genreInfo.addChild(genreIcon);
     genreInfo.addChild(genreTitle);
-    genreInfo.x = start * WIDTH_YEAR + (WIDTH_YEAR - genreInfo.width) / 2;
-    genreInfo.y = genreWrapper.y + (genreWrapper.height - genreInfo.height) / 2;
-
-    // genre info hover and click
-    genreInfo.interactive = true;
-    genreInfo.cursor = 'pointer';
-    genreInfo.on('pointerenter', (event: FederatedPointerEvent) => {
-        if (!isCanvasTarget(event)) {
-            return;
-        }
-        genreInfo.alpha = 0.7;
-    });
-    genreInfo.on('click', (event: FederatedPointerEvent) => {
-        if (!isCanvasTarget(event)) {
-            return;
-        }
-        window.location.href = `/${code}/`;
-    });
-    genreInfo.on('pointerleave', () => {
-        genreInfo.alpha = 1;
-    });
+    genreInfo.x = leftPaddingBefore + (WIDTH_YEAR - genreInfo.width) / 2;
+    genreInfo.y = GENRE_TOP_PADDING + (GENRE_HEIGHT - genreInfo.height) / 2 + topPaddingBefore;
 
     // move title and icon
-    const rightBorder = genreWrapper.x + genreWrapper.width;
+    const genreWrapperWidth = (end - start + 1) * WIDTH_YEAR;
+    const rightBorder = start * WIDTH_YEAR + genreWrapperWidth;
     const leftBorder = genreInfo.x;
     subscribeCustomEvent(MapEvent.CommonScroll, (event) => {
         if (event.detail.deltaX < 0) {
@@ -76,6 +62,25 @@ const GenreListInfo: (props: GenreListInfoProps) => Container = ({
             }
             genreInfo.x = newX;
         }
+    });
+
+    // genre info hover and click
+    genreInfo.interactive = true;
+    genreInfo.cursor = 'pointer';
+    genreInfo.on('pointerenter', (event: FederatedPointerEvent) => {
+        if (!isCanvasTarget(event)) {
+            return;
+        }
+        genreInfo.alpha = 0.7;
+    });
+    genreInfo.on('click', (event: FederatedPointerEvent) => {
+        if (!isCanvasTarget(event)) {
+            return;
+        }
+        window.location.href = `/${code}/`;
+    });
+    genreInfo.on('pointerleave', () => {
+        genreInfo.alpha = 1;
     });
 
     return genreInfo;

@@ -23,7 +23,7 @@ const GenreListView: (props: Props) => Container = ({ genre, position }) => {
     const genreListItemContainer = new Container();
 
     // prepare genre content
-    const genreWrapper = GenreListWrapper({ start, end, position });
+    const genreWrapper = GenreListWrapper({ start, end, positionY: position });
 
     // load icon fron server
     GenreIcon({ x: 0, path: icon }).then((genreIcon) => {
@@ -33,7 +33,7 @@ const GenreListView: (props: Props) => Container = ({ genre, position }) => {
         });
         // set sprite and update positions
         alignmentIconAndTitle(genreIcon, genreTitle);
-        const genreInfo = GenreListInfo({ genreIcon, genreTitle, genreWrapper, start, code });
+        const genreInfo = GenreListInfo({ genreIcon, genreTitle, start, end, code, positionY: position });
         genreListItemContainer.addChild(genreInfo);
     });
 
