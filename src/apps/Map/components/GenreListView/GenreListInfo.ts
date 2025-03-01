@@ -3,6 +3,7 @@ import { Container, FederatedPointerEvent, Sprite, Text } from 'pixi.js';
 import { subscribeCustomEvent } from 'src/modules/events';
 import MapEvent from 'src/modules/MapEvent';
 
+import { alphaAnimation } from 'map/modules/animations';
 import app from 'map/modules/app';
 import { GENRE_HEIGHT, GENRE_TOP_PADDING, WIDTH_YEAR } from 'map/modules/constants';
 import { isCanvasTarget } from 'map/modules/listeners';
@@ -65,22 +66,12 @@ const GenreListInfo: (props: GenreListInfoProps) => Container = ({
     });
 
     // genre info hover and click
-    genreInfo.interactive = true;
-    genreInfo.cursor = 'pointer';
-    genreInfo.on('pointerenter', (event: FederatedPointerEvent) => {
-        if (!isCanvasTarget(event)) {
-            return;
-        }
-        genreInfo.alpha = 0.7;
-    });
+    alphaAnimation(genreInfo);
     genreInfo.on('click', (event: FederatedPointerEvent) => {
         if (!isCanvasTarget(event)) {
             return;
         }
         window.location.href = `/${code}/`;
-    });
-    genreInfo.on('pointerleave', () => {
-        genreInfo.alpha = 1;
     });
 
     return genreInfo;

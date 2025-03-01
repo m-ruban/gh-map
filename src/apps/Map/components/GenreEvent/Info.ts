@@ -4,6 +4,7 @@ import { dispatchCustomEvent } from 'src/modules/events';
 import GenreEventType from 'src/modules/GenreEventType';
 import MapEvent from 'src/modules/MapEvent';
 
+import { alphaAnimation } from 'map/modules/animations';
 import { FontFamily } from 'map/modules/fonts';
 import { isCanvasTarget } from 'map/modules/listeners';
 
@@ -45,8 +46,7 @@ const Info: (props: InfoProps) => Container = ({ genreEventImage, title, type, a
     titleAndIconContainer.addChild(infoIcon);
 
     // click and hover
-    titleAndIconContainer.interactive = true;
-    titleAndIconContainer.cursor = 'pointer';
+    alphaAnimation(titleAndIconContainer);
     titleAndIconContainer.on('click', (event: FederatedPointerEvent) => {
         if (!isCanvasTarget(event)) {
             return;
@@ -65,15 +65,6 @@ const Info: (props: InfoProps) => Container = ({ genreEventImage, title, type, a
         if (description) {
             dispatchCustomEvent(MapEvent.ShowDetail, { detail: { title, description } });
         }
-    });
-    titleAndIconContainer.on('pointerenter', (event: FederatedPointerEvent) => {
-        if (!isCanvasTarget(event)) {
-            return;
-        }
-        titleAndIconContainer.alpha = 0.7;
-    });
-    titleAndIconContainer.on('pointerleave', () => {
-        titleAndIconContainer.alpha = 1;
     });
 
     // prepare child genre container
