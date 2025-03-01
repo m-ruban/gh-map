@@ -31,6 +31,7 @@ const CloseIcon = () => {
 const isString = (value: unknown) => typeof value === 'string';
 
 const ArticleView = (): ReactElement => {
+    const [descriptionKey, setDescriptionKey] = useState(0);
     const [showDefaultContent, setShowDefaultContent] = useState(true);
     const [articleView, setArticleView] = useState<ArticleViewState>(EMPTY_STATE);
     const handleOnClose = useCallback(() => {
@@ -49,8 +50,23 @@ const ArticleView = (): ReactElement => {
         };
     }, []);
 
-    const { description: _description, anchor, title, link, articleId } = articleView;
-    const description = isString(_description) ? <Paragraph>{_description}</Paragraph> : _description;
+    const { description, anchor, title, link, articleId } = articleView;
+    const wrappedDescription = isString(description) ? <Paragraph>{description}</Paragraph> : description;
+
+    // recalc text len
+    useEffect(() => {
+        setDescriptionKey((value) => ++value);
+    }, [description]);
+
+    const descriptionRef = useCallback(
+        (node: HTMLDivElement) => {
+            if (node) {
+                node.style.setProperty('--len', `${node.textContent.length}`);
+            }
+        },
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+        [description]
+    );
 
     return (
         <div className="article-view">
@@ -66,10 +82,18 @@ const ArticleView = (): ReactElement => {
                     )
                 }
             >
-                {showDefaultContent && <Paragraph>И тут появиться информация по теме...</Paragraph>}
+                {showDefaultContent && (
+                    <div className="article-view-defailt-content">
+                        <Paragraph>И тут появиться информация по теме...</Paragraph>
+                    </div>
+                )}
                 {!showDefaultContent && (
                     <>
-                        {!articleId && <div className="article-view-content">{description}</div>}
+                        {!articleId && (
+                            <div key={descriptionKey} ref={descriptionRef} className="article-view-content">
+                                {wrappedDescription}
+                            </div>
+                        )}
                         {articleId && (
                             <iframe
                                 className="article-view-iframe"

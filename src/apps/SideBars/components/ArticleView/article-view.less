@@ -8,8 +8,38 @@
     overflow: auto;
 }
 
+.article-view-defailt-content .gg-paragraph {
+    font-family: monospace;
+}
+
 .article-view-content {
     overflow: auto;
+
+    .gg-paragraph {
+        display: inline;
+        font-family: monospace;
+        color: #0000;
+        background:
+            linear-gradient(-90deg, #738697 5px, #0000 0) 5px 0,
+            linear-gradient(#738697 0 0) 0 0;
+        /* stylelint-disable-next-line */
+        background-size: calc(var(--len) * 1ch) 200%;
+        background-clip: padding-box, text;
+        background-repeat: no-repeat;
+        animation: background 0.7s infinite steps(1), typing calc(var(--len) * 0.006s) steps(var(--len)) forwards;
+    }
+}
+
+@keyframes typing {
+    from {
+        background-size: 0 200%;
+    }
+}
+
+@keyframes background {
+    50% {
+        background-position: 0 -100%, 0 0;
+    }
 }
 
 .article-close-button {
