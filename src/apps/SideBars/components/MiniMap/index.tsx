@@ -6,9 +6,9 @@ import './mini-map.less';
 
 const MiniMap = (): ReactElement => {
     return (
-        <div className="mini-map">
+        <div className="mini-map-container">
             <Frame title="Mini-map" height={70}>
-                mini map
+                <canvas id="mini-map" />
             </Frame>
         </div>
     );

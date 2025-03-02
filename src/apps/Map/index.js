@@ -22,11 +22,11 @@ fonts.then(async () => {
     const responses = await Promise.all(requests);
     // set data to store
     setData(responses);
-    dispatchCustomEvent(MapEvent.MapLoaded);
     // render canvas app
     app.stage.addChild(RouteComponent());
     app.stage.addChild(Timeline());
     listeners(vertical);
+    dispatchCustomEvent(MapEvent.MapLoaded, { detail: { app } });
 });
 
 // pixi debug
