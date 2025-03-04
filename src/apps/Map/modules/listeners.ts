@@ -16,7 +16,7 @@ export const isCanvasTarget = (event: FederatedEvent): boolean => {
 
 const SPEED = 1.2;
 
-const listeners: (vertical: boolean) => void = (vertical: boolean) => {
+export const enableMapAndAddListeners: (vertical: boolean) => void = (vertical: boolean) => {
     // should fire event
     app.stage.interactive = true;
 
@@ -134,5 +134,3 @@ const listeners: (vertical: boolean) => void = (vertical: boolean) => {
         }, 100)
     );
 };
-
-export default listeners;

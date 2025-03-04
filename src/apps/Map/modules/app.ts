@@ -18,7 +18,6 @@ if (!mobile()) {
         resolution: 1,
         useContextAlpha: true,
         antialias: false,
-        hello: true,
     });
     root.appendChild(app.view);
 }
