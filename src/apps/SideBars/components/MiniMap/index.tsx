@@ -8,7 +8,7 @@ const MiniMap = (): ReactElement => {
     return (
         <div className="mini-map-container">
             <Frame title="Mini-map" height={70}>
-                <canvas id="mini-map" />
+                <div id="mini-map" />
             </Frame>
         </div>
     );
