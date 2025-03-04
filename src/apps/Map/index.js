@@ -5,9 +5,11 @@ import mobile from 'src/modules/mobile';
 import app from 'map/modules/app';
 import fetcher from 'map/modules/fetcher';
 import fonts from 'map/modules/fonts';
-import listeners from 'map/modules/listeners';
+import { enableMapAndAddListeners } from 'map/modules/listeners';
+import miniMap, { enableMiniMap } from 'map/modules/mini-map';
 import { getRouteComponent } from 'map/modules/routes';
 
+import Selection from 'map/components/Selection';
 import Timeline from 'map/components/Timeline';
 
 // init app after fonts
@@ -16,17 +18,21 @@ fonts.then(async () => {
         return;
     }
     // get route data
-    const { RouteComponent, vertical, urls, setData } = getRouteComponent();
+    const { RouteComponent, vertical, urls, setData, MiniMapComponent } = getRouteComponent();
     const requests = urls.map((url) => fetcher.get(url));
     // send api requests
-    const responses = await Promise.all(requests);
-    // set data to store
-    setData(responses);
+    setData(await Promise.all(requests));
     // render canvas app
     app.stage.addChild(RouteComponent());
     app.stage.addChild(Timeline());
-    listeners(vertical);
+    // add listeners for general scene
+    enableMapAndAddListeners(vertical);
     dispatchCustomEvent(MapEvent.MapLoaded, { detail: { app } });
+    // generate mini map
+    const miniMapContainer = MiniMapComponent();
+    miniMap.stage.addChild(miniMapContainer);
+    miniMap.stage.addChild(Selection({ mapWidth: miniMapContainer.width }));
+    enableMiniMap(miniMapContainer);
 });
 
 // pixi debug

@@ -6,10 +6,13 @@ import { setHistory } from 'src/models/history';
 import store from 'src/models/store';
 
 import GenreDetail from 'map/pages/GenreDetail';
+import GenreDetailMiniMap from 'map/pages/GenreDetail/map';
 import GenreList from 'map/pages/GenreList';
+import GenreListMiniMap from 'map/pages/GenreList/map';
 
 interface RouteComponentResult {
     RouteComponent: () => Container;
+    MiniMapComponent: () => Container;
     vertical: boolean;
     urls: string[];
     setData: (response: unknown) => void;
@@ -24,11 +27,14 @@ const apiRoot = () => {
 
 // add route by event
 const GENRE_REGEX = /^\/([a-zA-Z0-9\-\_]*)\/$/;
+const isGenrePage = () => GENRE_REGEX.exec(window.location.pathname);
+
 export const getRouteComponent: () => RouteComponentResult = () => {
-    if (GENRE_REGEX.exec(window.location.pathname)) {
+    if (isGenrePage()) {
         const path = window.location.pathname.replaceAll('/', '');
         return {
             RouteComponent: GenreDetail,
+            MiniMapComponent: GenreDetailMiniMap,
             vertical: false,
             urls: [`${apiRoot()}/api/v1/map/${path}/`],
             setData: ([page]) => {
@@ -40,10 +46,10 @@ export const getRouteComponent: () => RouteComponentResult = () => {
     }
     return {
         RouteComponent: GenreList,
+        MiniMapComponent: GenreListMiniMap,
         vertical: true,
         urls: [`${apiRoot()}/api/v1/map/`],
         setData: ([page]) => {
-            // set data to store
             const { categories: genres, history } = page.data;
             store.dispatch(setGenres(genres));
             store.dispatch(setHistory(history));
