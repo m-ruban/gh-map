@@ -1,9 +1,11 @@
 import React, { ReactElement, ReactNode, useCallback, useEffect, useState } from 'react';
+import classnames from 'classnames';
 
 import MapEvent from 'src/modules/MapEvent';
 
 import Paragraph from 'gg-ukit/components/Paragraph';
 import Frame from 'side-bars/components/Frame';
+import Gallery from 'side-bars/components/Gallery';
 
 import './article-view.less';
 
@@ -13,9 +15,10 @@ interface ArticleViewState {
     link: string;
     anchor: ReactNode;
     articleId: number;
+    images?: string[];
 }
 
-const EMPTY_STATE: ArticleViewState = { title: '', description: '', link: '', anchor: '', articleId: 0 };
+const EMPTY_STATE: ArticleViewState = { title: '', description: '', link: '', anchor: '', articleId: 0, images: [] };
 
 const CloseIcon = () => {
     return (
@@ -34,6 +37,7 @@ const ArticleView = (): ReactElement => {
     const [descriptionKey, setDescriptionKey] = useState(0);
     const [showDefaultContent, setShowDefaultContent] = useState(true);
     const [articleView, setArticleView] = useState<ArticleViewState>(EMPTY_STATE);
+    const [showGallery, setShowGallery] = useState(false);
     const handleOnClose = useCallback(() => {
         setShowDefaultContent(true);
         setArticleView(EMPTY_STATE);
@@ -41,7 +45,9 @@ const ArticleView = (): ReactElement => {
 
     useEffect(() => {
         const showArticleView = (event: CustomEvent) => {
-            setArticleView(event.detail as ArticleViewState);
+            const state = event.detail as ArticleViewState;
+            // state.images = ['https://gamespirit.org/image/fps/zCkEM_test_cover.jpg'];
+            setArticleView(state);
             setShowDefaultContent(false);
         };
         document.addEventListener(MapEvent.ShowDetail, showArticleView);
@@ -50,17 +56,32 @@ const ArticleView = (): ReactElement => {
         };
     }, []);
 
-    const { description, anchor, title, link, articleId } = articleView;
+    const { description, anchor, title, link, articleId, images } = articleView;
     const wrappedDescription = isString(description) ? <Paragraph>{description}</Paragraph> : description;
 
     // recalc text len
     useEffect(() => {
         setDescriptionKey((value) => ++value);
+        setShowGallery(false);
     }, [description]);
+
+    const detectAnimationEnd = useCallback(
+        (node: HTMLDivElement) => {
+            if (images?.length > 0) {
+                const callback = () => {
+                    setShowGallery(true);
+                    node.removeEventListener('animationend', callback);
+                };
+                node.addEventListener('animationend', callback);
+            }
+        },
+        [images]
+    );
 
     const descriptionRef = useCallback(
         (node: HTMLDivElement) => {
             if (node) {
+                detectAnimationEnd(node);
                 node.style.setProperty('--len', `${node.textContent.length}`);
             }
         },
@@ -92,6 +113,15 @@ const ArticleView = (): ReactElement => {
                         {!articleId && (
                             <div key={descriptionKey} ref={descriptionRef} className="article-view-content">
                                 {wrappedDescription}
+                                {images?.length > 0 && (
+                                    <div
+                                        className={classnames('article-view-gallery', {
+                                            'article-view-gallery_show': showGallery,
+                                        })}
+                                    >
+                                        <Gallery slides={images} />
+                                    </div>
+                                )}
                             </div>
                         )}
                         {articleId && (
