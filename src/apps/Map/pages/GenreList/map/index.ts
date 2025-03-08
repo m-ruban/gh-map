@@ -3,7 +3,7 @@ import { Container } from 'pixi.js';
 import MiniYears from 'src/apps/Map/components/MiniYears';
 import store from 'src/models/store';
 
-import GenreItem from 'map/pages/GenreList/map/GenreItem';
+import MiniGenreItem from 'map/components/MiniGenreItem';
 
 const GenreListMiniMap: () => Container = () => {
     const genreListMiniMap = new Container();
@@ -15,7 +15,7 @@ const GenreListMiniMap: () => Container = () => {
     // genre list
     genres.forEach((genre, position) => {
         const { startKey, endKey } = genre;
-        genreListMiniMap.addChild(GenreItem({ startKey, endKey, position }));
+        genreListMiniMap.addChild(MiniGenreItem({ startKey, endKey, position }));
     });
 
     return genreListMiniMap;

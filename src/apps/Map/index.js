@@ -6,7 +6,7 @@ import app from 'map/modules/app';
 import fetcher from 'map/modules/fetcher';
 import fonts from 'map/modules/fonts';
 import { enableMapAndAddListeners } from 'map/modules/listeners';
-import miniMap, { enableMiniMap } from 'map/modules/mini-map';
+import miniMap, { enableMiniMapAndAddListeners } from 'map/modules/mini-map';
 import { getRouteComponent } from 'map/modules/routes';
 
 import Selection from 'map/components/Selection';
@@ -32,7 +32,7 @@ fonts.then(async () => {
     const miniMapContainer = MiniMapComponent();
     miniMap.stage.addChild(miniMapContainer);
     miniMap.stage.addChild(Selection({ mapWidth: miniMapContainer.width }));
-    enableMiniMap(miniMapContainer);
+    enableMiniMapAndAddListeners(miniMapContainer);
 });
 
 // pixi debug

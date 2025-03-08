@@ -1,6 +1,7 @@
-import { Graphics } from 'pixi.js';
+import { FederatedPointerEvent, Graphics } from 'pixi.js';
 
 import { subscribeCustomEvent } from 'src/modules/events';
+import { dispatchCustomEvent } from 'src/modules/events';
 import MapEvent from 'src/modules/MapEvent';
 
 import app from 'map/modules/app';
@@ -15,7 +16,6 @@ const WIDTH_BORDER = 2;
 const LINE_STYLE = { color: 0x404a53, width: WIDTH_BORDER };
 
 const Selection = ({ mapWidth }: SelectionProps): Graphics => {
-    // const selectionContainer = new Container();
     const mapStageWidth = app.stage.width;
     const mapViewWidth = app.view.width;
     const ratioViewStage = mapViewWidth / mapStageWidth;
@@ -27,7 +27,6 @@ const Selection = ({ mapWidth }: SelectionProps): Graphics => {
 
     const selection = new Graphics();
     selection.lineStyle(LINE_STYLE);
-    // selection.beginFill(0x404a53);
     selection.drawPolygon([
         { x: WIDTH_BORDER / 2, y: WIDTH_BORDER / 2 },
         { x: selectionWidth - WIDTH_BORDER / 2, y: WIDTH_BORDER / 2 },
@@ -37,7 +36,7 @@ const Selection = ({ mapWidth }: SelectionProps): Graphics => {
     selection.endFill();
     selection.cacheAsBitmap = true;
 
-    subscribeCustomEvent(MapEvent.CommonScroll, () => {
+    subscribeCustomEvent(MapEvent.ScrollMiniMap, () => {
         // учитываем пропорции, в которых нарисована карта (RATIO)
         // утитываем ширину, на которую карта растянута/сжата (ratioOriginView)
         const newX = -app.stage.x * RATIO * ratioOriginView;
@@ -45,6 +44,25 @@ const Selection = ({ mapWidth }: SelectionProps): Graphics => {
             return;
         }
         selection.x = newX;
+    });
+
+    subscribeCustomEvent(MapEvent.ClickOnMimiMap, (event) => {
+        const clickEvent = event.detail.event as FederatedPointerEvent;
+        const localPoint = miniMap.stage.toLocal(clickEvent.global);
+        let newX = localPoint.x - selectionWidth / 2;
+        if (newX >= border) {
+            newX = border;
+        }
+        if (newX < 0) {
+            newX = 0;
+        }
+        selection.x = newX;
+        const eventData = {
+            detail: {
+                percent: newX / miniMap.stage.width,
+            },
+        };
+        dispatchCustomEvent(MapEvent.MoveMapByMiniMap, eventData);
     });
 
     return selection;

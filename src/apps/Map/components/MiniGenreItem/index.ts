@@ -2,13 +2,13 @@ import { Container, Graphics } from 'pixi.js';
 
 import { HEIGHT_YEAR, WIDTH_YEAR } from 'map/modules/mini-constants';
 
-interface GenreItemProps {
+interface MiniGenreItemProps {
     startKey: number;
     endKey: number;
     position: number;
 }
 
-const GenreItem = ({ startKey, endKey, position }: GenreItemProps): Container => {
+const MiniGenreItem = ({ startKey, endKey, position }: MiniGenreItemProps): Container => {
     const genreItem = new Graphics();
     genreItem.beginFill(0x2f3539);
     genreItem.x = startKey * WIDTH_YEAR;
@@ -24,4 +24,4 @@ const GenreItem = ({ startKey, endKey, position }: GenreItemProps): Container =>
     return genreItem;
 };
 
-export default GenreItem;
+export default MiniGenreItem;
