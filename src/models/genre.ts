@@ -12,6 +12,8 @@ export interface CategoryEvent {
     link?: string;
     title: string;
     type: GenreEventType;
+    primary_image: string;
+    secondary_image: string;
 }
 
 interface CategoryTimelineItems {
