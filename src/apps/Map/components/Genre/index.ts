@@ -50,7 +50,7 @@ const Genre: () => DisplayObject = () => {
         partTimelineInfoContainer.addChild(partTimeline);
 
         if (timelineItem) {
-            const { title, category_events: events } = timelineItem;
+            const { title, category_events: events, advice } = timelineItem;
 
             // render description
             if (title) {
@@ -59,7 +59,6 @@ const Genre: () => DisplayObject = () => {
             }
 
             // tip for description
-            const { advice } = timelineItem;
             if (advice) {
                 const tipX = (position + 1) * WIDTH_YEAR;
                 const infoTip = InfoTip({ x: tipX, y: GENRE_TOP_PADDING, detail: { ...advice } });

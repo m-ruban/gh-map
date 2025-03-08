@@ -39,7 +39,7 @@ export const enableMapAndAddListeners: (vertical: boolean) => void = (vertical: 
             }
             app.stage.x = positionX;
             if (vertical) {
-                let positionY = app.stage.y + event.y - prevPoint.y;
+                let positionY = app.stage.y + event.y * SPEED - prevPoint.y;
                 if (positionY > TOP_SCROLL_BORDER) {
                     positionY = TOP_SCROLL_BORDER;
                 }
@@ -52,12 +52,13 @@ export const enableMapAndAddListeners: (vertical: boolean) => void = (vertical: 
                 detail: {
                     vertical,
                     deltaX: event.x * SPEED - prevPoint.x,
-                    deltaY: event.y - prevPoint.y,
+                    deltaY: event.y * SPEED - prevPoint.y,
                 },
             };
             dispatchCustomEvent(MapEvent.CommonScroll, eventData);
+            dispatchCustomEvent(MapEvent.ScrollMiniMap, eventData);
         }
-        prevPoint = { x: event.x * SPEED, y: event.y };
+        prevPoint = { x: event.x * SPEED, y: event.y * SPEED };
         app.view.style.cursor = vertical ? 'move' : 'ew-resize';
     };
 
@@ -81,27 +82,43 @@ export const enableMapAndAddListeners: (vertical: boolean) => void = (vertical: 
     }, 200);
     window.addEventListener('resize', onResize);
 
-    // scroll map by external event
-    const moveByArrow = (event: { detail: { direction: Direction } }) => {
-        const distance = event.detail.direction === Direction.Left ? app.view.width : app.view.width * -1;
-        let positionX = app.stage.x + distance;
+    const moveMapOnDistance = (distance: number, emitMiniMapEvent = false) => {
+        let positionX = distance;
         if (positionX > LEFT_SCROLL_BORDER) {
             positionX = LEFT_SCROLL_BORDER;
         }
         if (positionX < RIGHT_SCROLL_BORDER) {
             positionX = RIGHT_SCROLL_BORDER;
         }
+        const prevX = app.stage.x;
         app.stage.x = positionX;
+
         const eventData = {
             detail: {
                 vertical: false,
-                deltaX: distance,
+                deltaX: distance - prevX,
                 deltaY: 0,
             },
         };
         dispatchCustomEvent(MapEvent.CommonScroll, eventData);
+        if (emitMiniMapEvent) {
+            dispatchCustomEvent(MapEvent.ScrollMiniMap, eventData);
+        }
+    };
+
+    // scroll map by external event (arrows)
+    const moveByArrow = (event: { detail: { direction: Direction } }) => {
+        const distance = event.detail.direction === Direction.Left ? app.view.width : app.view.width * -1;
+        moveMapOnDistance(app.stage.x + distance, true);
     };
     subscribeCustomEvent(MapEvent.MoveMapByArrow, moveByArrow);
+
+    // scroll map by external event (mini map)
+    const moveByMiniMap = (event: { detail: { percent: number } }) => {
+        const distance = app.stage.width * event.detail.percent * -1;
+        moveMapOnDistance(distance);
+    };
+    subscribeCustomEvent(MapEvent.MoveMapByMiniMap, moveByMiniMap);
 
     // disable scroll events on canvas
     const root = document.querySelector(APP_SELECTOR) as HTMLElement;
