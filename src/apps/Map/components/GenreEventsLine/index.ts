@@ -32,13 +32,24 @@ const GenreEventsLine: (props: GenreEventsLineProps) => Container = ({ x, y, eve
 
     const genreEventResponses: GenreEventResponse[] = [];
     const eventViewRequests: Promise<void>[] = [];
-    events.forEach(({ id, image, title, type, article_id: articleId, link, description }) => {
-        eventViewRequests.push(
-            GenreEventView({ image, title, type, articleId, link, keyword, description }).then((genreEvent) => {
-                genreEventResponses.push({ id, genreEvent });
-            })
-        );
-    });
+    events.forEach(
+        ({ id, image, title, type, article_id: articleId, link, description, primary_image, secondary_image }) => {
+            eventViewRequests.push(
+                GenreEventView({
+                    image,
+                    title,
+                    type,
+                    articleId,
+                    link,
+                    keyword,
+                    description,
+                    images: [primary_image, secondary_image],
+                }).then((genreEvent) => {
+                    genreEventResponses.push({ id, genreEvent });
+                })
+            );
+        }
+    );
 
     Promise.all(eventViewRequests).then(() => {
         let prevGenreEventHeight = 0;

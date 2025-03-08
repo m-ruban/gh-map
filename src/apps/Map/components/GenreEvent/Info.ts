@@ -29,9 +29,18 @@ interface InfoProps {
     articleId: number;
     link?: string;
     description?: string;
+    images: string[];
 }
 
-const Info: (props: InfoProps) => Container = ({ genreEventImage, title, type, articleId, link, description }) => {
+const Info: (props: InfoProps) => Container = ({
+    genreEventImage,
+    title,
+    type,
+    articleId,
+    link,
+    description,
+    images,
+}) => {
     // prepare text metrics
     const metrics = TextMetrics.measureText(title.toUpperCase(), titleStyle);
 
@@ -63,7 +72,7 @@ const Info: (props: InfoProps) => Container = ({ genreEventImage, title, type, a
         }
         // short info
         if (description) {
-            dispatchCustomEvent(MapEvent.ShowDetail, { detail: { title, description } });
+            dispatchCustomEvent(MapEvent.ShowDetail, { detail: { title, description, images } });
         }
     });
 

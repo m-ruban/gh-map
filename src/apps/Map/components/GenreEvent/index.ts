@@ -15,6 +15,7 @@ export interface GenreEvent {
     articleId?: number;
     link?: string;
     description: string;
+    images: string[];
 }
 
 const GenreEventView: (props: GenreEvent) => Promise<Container> = async ({
@@ -25,13 +26,22 @@ const GenreEventView: (props: GenreEvent) => Promise<Container> = async ({
     link,
     keyword,
     description,
+    images,
 }) => {
     const genreEventContainer = new Container();
     genreEventContainer.x = PADDING_WRAPPER;
     // genre event image
     const genreEventImage = await Image({ image: getEventPath(keyword, image) });
     // event title
-    const genreInfo = Info({ genreEventImage, title, type, articleId, link, description });
+    const genreInfo = Info({
+        genreEventImage,
+        title,
+        type,
+        articleId,
+        link,
+        description,
+        images: images.filter(Boolean).map((image) => getEventPath(keyword, image)),
+    });
     // prepare child genre container
     genreEventContainer.addChild(genreEventImage);
     genreEventContainer.addChild(genreInfo);
