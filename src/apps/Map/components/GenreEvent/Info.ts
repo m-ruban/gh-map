@@ -30,6 +30,7 @@ interface InfoProps {
     link?: string;
     description?: string;
     images: string[];
+    articleLink: string;
 }
 
 const Info: (props: InfoProps) => Container = ({
@@ -40,6 +41,7 @@ const Info: (props: InfoProps) => Container = ({
     link,
     description,
     images,
+    articleLink,
 }) => {
     // prepare text metrics
     const metrics = TextMetrics.measureText(title.toUpperCase(), titleStyle);
@@ -67,7 +69,7 @@ const Info: (props: InfoProps) => Container = ({
         }
         // open article in iframe
         if (articleId) {
-            dispatchCustomEvent(MapEvent.ShowDetail, { detail: { title, articleId } });
+            dispatchCustomEvent(MapEvent.ShowDetail, { detail: { title, articleId, link: articleLink } });
             return;
         }
         // short info

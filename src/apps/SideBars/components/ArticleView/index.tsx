@@ -18,7 +18,14 @@ interface ArticleViewState {
     images?: string[];
 }
 
-const EMPTY_STATE: ArticleViewState = { title: '', description: '', link: '', anchor: '', articleId: 0, images: [] };
+const EMPTY_STATE: ArticleViewState = {
+    title: '',
+    description: '',
+    link: '',
+    anchor: '',
+    articleId: 0,
+    images: [],
+};
 
 const CloseIcon = () => {
     return (
